@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    package="vn.danhtran.customglide">
+
+    <application
+        android:allowBackup="false"
+        android:supportsRtl="true">
+
+        <!--module glide option-->
+        <meta-data
+            android:name="com.danhtran.customglide.MyAppGlideModule"
+            android:value="GlideModule"
+            tools:node="remove" />
+    </application>
+
+</manifest>
