@@ -9,18 +9,23 @@ import androidx.recyclerview.widget.RecyclerView
  * Created by danhtran on 10/06/2017.
  */
 
-abstract class BaseRecyclerAdapter<T>//if we use Application Context in getSystemService(), We will get error if we have autolink in textview.
-    (protected var items: MutableList<T>, context: Context, protected var listener: BaseRecyclerListener?) :
-    RecyclerView.Adapter<BindingViewHolder<*>>() {
-    protected val VISIBLE_THRESHOLD = 1
-    protected val VIEW_PROG = 0
-    protected val VIEW_ITEM = 1
-    protected var isMoreLoading = false
-    protected val mLayoutInflater: LayoutInflater
+abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BindingViewHolder<*>> {
+    private var items: MutableList<T?>
+    protected var listener: BaseRecyclerListener?
 
-    init {
-        mLayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    //if we use Application Context in getSystemService(), We will get error if we have autolink in textview.
+    constructor(items: MutableList<T?>, context: Context, listener: BaseRecyclerListener?) : super() {
+        this.items = items
+        this.listener = listener
+
+        this.mLayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     }
+
+    val VISIBLE_THRESHOLD = 1
+    val VIEW_PROG = 0
+    val VIEW_ITEM = 1
+    var isMoreLoading = false
+    val mLayoutInflater: LayoutInflater
 
     override fun onBindViewHolder(holder: BindingViewHolder<*>, position: Int) {
         if (getItemViewType(position) != VIEW_PROG) {
@@ -59,10 +64,6 @@ abstract class BaseRecyclerAdapter<T>//if we use Application Context in getSyste
                 notifyItemRangeChanged(items.size, itemCount)
             }
         }
-    }
-
-    fun setMoreLoading(moreLoading: Boolean) {
-        isMoreLoading = moreLoading
     }
 
     override fun getItemViewType(position: Int): Int {

@@ -14,20 +14,20 @@ import javax.inject.Inject
  */
 class TourActivityPresenter(private val listener: TourActivityListener) : BaseActivityPresenter() {
     @Inject
-    internal var sharedPrefsHelper: SharedPrefsHelper? = null
+    internal lateinit var sharedPrefsHelper: SharedPrefsHelper
 
     override fun initInject() {
-        MyApplication.instance().appComponent!!.inject(this)
+        MyApplication.instance().appComponent.inject(this)
     }
 
     internal fun saveFlag() {
         //save into share preference
-        sharedPrefsHelper!!.writeBoolean(SharePrefs.IS_NOT_FIRST_VIEW.value, true)
+        sharedPrefsHelper.writeBoolean(SharePrefs.IS_NOT_FIRST_VIEW.value, true)
     }
 
     fun onClickListener(): View.OnClickListener {
-        return { v ->
-            when (v.getId()) {
+        return View.OnClickListener { v: View? ->
+            when (v?.id) {
                 R.id.btnDone -> listener.moveNextTour()
                 R.id.btnSkip -> listener.launchHomeScreen()
             }

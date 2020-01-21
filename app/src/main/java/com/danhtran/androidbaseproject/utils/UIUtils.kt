@@ -42,8 +42,10 @@ object UIUtils {
      * @param view    view
      */
     fun hideSoftKeyboard(context: Context, view: View) {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager ?: return
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
+        context?.let {
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager ?: return
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
     }
 
     /**
@@ -52,9 +54,11 @@ object UIUtils {
      * @param activity activity
      */
     fun hideSoftKeyboard(activity: Activity) {
-        val inputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (inputMethodManager != null && activity.currentFocus != null) {
-            inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
+        activity?.let {
+            val inputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            activity.currentFocus?.let {
+                inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
+            }
         }
     }
 
@@ -109,7 +113,7 @@ object UIUtils {
      * @param rootLayout root layout
      * @param view       view
      */
-    fun addKeyboardEvents(activity: Activity, rootLayout: View, view: View) {
+    fun addKeyboardEvents(activity: BaseAppCompatActivity, rootLayout: View, view: View) {
 
         if (view is EditText) {
             view.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->

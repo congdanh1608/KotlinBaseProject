@@ -18,7 +18,10 @@ class TourActivity : BaseAppCompatActivity(), TourActivityListener {
     private var presenter: TourActivityPresenter? = null
 
     private var myViewPagerAdapter: MyViewPagerAdapter? = null
-    private var layouts: IntArray? = null
+
+    // layouts of all welcome sliders
+    private val layouts =
+        intArrayOf(R.layout.item_tour_slider_1, R.layout.item_tour_slider_2, R.layout.item_tour_slider_3)
 
     //  viewpager change listener
     internal var viewPagerPageChangeListener: ViewPager.OnPageChangeListener = object : ViewPager.OnPageChangeListener {
@@ -27,7 +30,7 @@ class TourActivity : BaseAppCompatActivity(), TourActivityListener {
             addBottomDots(position)
 
             // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == layouts!!.size - 1) {
+            if (position == layouts.size - 1) {
                 // last page. make button text to GOT IT
                 mBinding!!.btnDone.visibility = View.VISIBLE
                 mBinding!!.btnSkip.visibility = View.GONE
@@ -57,9 +60,6 @@ class TourActivity : BaseAppCompatActivity(), TourActivityListener {
     override fun initUI() {
         mBinding = binding as ActivityTourBinding
 
-        // layouts of all welcome sliders
-        layouts = intArrayOf(R.layout.item_tour_slider_1, R.layout.item_tour_slider_2, R.layout.item_tour_slider_3)
-
         // adding bottom dots
         addBottomDots(0)
         myViewPagerAdapter = MyViewPagerAdapter(this, layouts)
@@ -81,7 +81,7 @@ class TourActivity : BaseAppCompatActivity(), TourActivityListener {
         // checking for last page
         // if last page home screen will be launched
         val current = getItem(+1)
-        if (current < layouts!!.size) {
+        if (current < layouts.size) {
             // move to next screen
             mBinding!!.viewPager.currentItem = current
         } else {

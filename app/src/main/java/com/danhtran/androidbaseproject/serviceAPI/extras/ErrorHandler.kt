@@ -30,19 +30,20 @@ object ErrorHandler {
                 val errorBody = Objects.requireNonNull<ResponseBody>(throwable.response()!!.errorBody()).string()
                 if (!TextUtils.isEmpty(errorBody)) {
                     val gson = Gson()
-                    val responseModel = gson.fromJson<ResponseModel<*>>(errorBody, ResponseModel<*>::class.java)
-                    if (responseModel != null && responseModel!!.errors != null) {
-                        val errors = responseModel!!.errors
-                        val error = errors!!.get(0) as Error
+                    val responseModel = gson.fromJson<ResponseModel<*>>(errorBody, ResponseModel::class.java)
+                    responseModel?.errors?.let {
+                        val errors = responseModel.errors
+                        val error = errors?.get(0) as Error
                         when (error.errorCode) {
                             401   //un authentication
                             -> {
                             }
-                            400 -> showError(activity, responseModel!!.getData() as String)
-                            500 -> showError(activity, responseModel!!.getData() as String)
-                            else -> showError(activity, responseModel!!.getData() as String)
+                            400 -> showError(activity, responseModel.getData() as String)
+                            500 -> showError(activity, responseModel.getData() as String)
+                            else -> showError(activity, responseModel.getData() as String)
                         }//                                activity.startActivityAsRoot(AuthenActivity.class.getName(), null);
                     }
+
                 } else {
                     showError(activity, throwable.message)
                 }
@@ -71,17 +72,17 @@ object ErrorHandler {
                 val errorBody = Objects.requireNonNull<ResponseBody>(throwable.response()!!.errorBody()).string()
                 if (!TextUtils.isEmpty(errorBody)) {
                     val gson = Gson()
-                    val responseModel = gson.fromJson<ResponseModel<*>>(errorBody, ResponseModel<*>::class.java)
-                    if (responseModel != null && responseModel!!.errors != null) {
-                        val errors = responseModel!!.errors
-                        val error = errors!!.get(0) as Error
+                    val responseModel = gson.fromJson<ResponseModel<*>>(errorBody, ResponseModel::class.java)
+                    responseModel?.errors?.let {
+                        val errors = responseModel.errors
+                        val error = errors?.get(0) as Error
                         when (error.errorCode) {
                             401   //un authentication
                             -> {
                             }
-                            400 -> showError(view, responseModel!!.getData() as String)
-                            500 -> showError(view, responseModel!!.getData() as String)
-                            else -> showError(view, responseModel!!.getData() as String)
+                            400 -> showError(view, responseModel.getData() as String)
+                            500 -> showError(view, responseModel.getData() as String)
+                            else -> showError(view, responseModel.getData() as String)
                         }//activity.startActivityAsRoot(AuthenActivity.class.getName(), null);
                     }
                 } else {
@@ -103,7 +104,9 @@ object ErrorHandler {
         message?.let { SnackBarUtils.showGeneralError(view, it) }
     }
 
-    private fun showError(activity: BaseAppCompatActivity, message: String) {
-        activity.rootView?.let { SnackBarUtils.showGeneralError(it, message) }
+    private fun showError(activity: BaseAppCompatActivity, message: String?) {
+        if (activity.rootView != null && message != null) {
+            SnackBarUtils.showGeneralError(activity.rootView!!, message)
+        }
     }
 }

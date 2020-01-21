@@ -16,7 +16,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.ui.activity.main.MainActivity
 import com.danhtran.androidbaseproject.ui.activity.tour.TourActivity
@@ -24,7 +23,7 @@ import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
 import com.danhtran.androidbaseproject.utils.UIUtils
 import com.orhanobut.logger.Logger
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-import java.util.LinkedHashSet
+import java.util.*
 
 /**
  * Created by danhtran on 2/26/2018.
@@ -129,8 +128,10 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
             return null
         }
 
-    fun addDialog(dialog: Dialog) {
-        setOfDialogs.add(dialog)
+    fun addDialog(dialog: Dialog?) {
+        dialog?.let {
+            setOfDialogs.add(dialog)
+        }
     }
 
     /**
@@ -283,7 +284,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
      * @param isAddBackStack does add this fragment into backstack?
      */
     @JvmOverloads
-    fun setFragment(tag: String, data: Any, isAddBackStack: Boolean = true) {
+    fun setFragment(tag: String, data: Any?, isAddBackStack: Boolean = true) {
         val fragmentPopped = myFragmentManager!!.popBackStackImmediate(tag, 0)
         if (!fragmentPopped) {
             val fragment = getFragment(tag, data)
@@ -305,7 +306,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
     }
 
     //get fragment by tag and data
-    private fun getFragment(tag: String, data: Any): BaseFragment? {
+    private fun getFragment(tag: String, data: Any?): BaseFragment? {
         /*if (Fragment1.class.getName().equals(tag)) {
             return new Fragment1();
         } */
@@ -431,7 +432,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
         progressDialog!!.setCancelable(false)
 
         val dialogWindow = progressDialog!!.window
-        if (dialogWindow != null) {
+        dialogWindow?.let {
             dialogWindow.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             dialogWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
@@ -444,16 +445,14 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
      * Show progress layout
      */
     fun showProgress() {
-        if (progressDialog != null)
-            progressDialog!!.show()
+        progressDialog?.show()
     }
 
     /**
      * Hide progress layout
      */
     fun hideProgress() {
-        if (progressDialog != null)
-            progressDialog!!.hide()
+        progressDialog?.hide()
     }
 }
 /**

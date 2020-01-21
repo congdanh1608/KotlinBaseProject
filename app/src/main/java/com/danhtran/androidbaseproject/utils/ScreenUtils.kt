@@ -66,9 +66,8 @@ object ScreenUtils {
             return
         }
 
-        val windowManager =
-            MyApplication.instance().applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        if (windowManager != null) {
+        val windowManager =            MyApplication.instance().applicationContext.getSystemService(Context.WINDOW_SERVICE) as? WindowManager
+        windowManager?.let {
             val display = windowManager.defaultDisplay
 
             val metrics = DisplayMetrics()

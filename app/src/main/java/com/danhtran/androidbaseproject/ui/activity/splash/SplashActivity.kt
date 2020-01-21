@@ -20,12 +20,12 @@ class SplashActivity : BaseAppCompatActivity() {
     private val DELAY_TIME = 1000
 
     @Inject
-    internal var sharedPrefsHelper: SharedPrefsHelper? = null
+    internal lateinit var sharedPrefsHelper: SharedPrefsHelper
 
     private var handler: Handler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        MyApplication.instance().appComponent!!.inject(this)
+        MyApplication.instance().appComponent.inject(this)
 
         super.onCreate(savedInstanceState)
     }
@@ -41,7 +41,7 @@ class SplashActivity : BaseAppCompatActivity() {
     override fun initData() {
         handler = Handler()
         handler!!.postDelayed({
-            if (!sharedPrefsHelper!!.readBoolean(SharePrefs.IS_NOT_FIRST_VIEW.value)) {
+            if (!sharedPrefsHelper.readBoolean(SharePrefs.IS_NOT_FIRST_VIEW.value)!!) {
                 startActivityAsRoot(TourActivity::class.java.name, null)
             } else {
                 startActivityAsRoot(MainActivity::class.java.name, null)

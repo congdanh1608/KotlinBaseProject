@@ -113,7 +113,7 @@ object Utils {
                 Logger.d("SHA KEY = $hashKey")
             }
         } catch (e: Exception) {
-            Logger.e(e.message)
+            Logger.d(e.message)
         }
 
     }

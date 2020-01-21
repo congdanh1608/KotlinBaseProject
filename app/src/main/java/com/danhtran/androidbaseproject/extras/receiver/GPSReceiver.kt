@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
@@ -22,11 +23,8 @@ import com.orhanobut.logger.Logger
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 import org.greenrobot.eventbus.EventBus
 import pl.charmas.android.reactivelocation2.ReactiveLocationProvider
-
-import android.content.Context.LOCATION_SERVICE
 
 /**
  * Created by danh.tran on 04/08/16.
@@ -161,15 +159,11 @@ class GPSReceiver(private val context: Context, private val listener: GPSReceive
     }
 
     fun stopUpdateLocation() {
-        if (disposableUpdated != null) {
-            disposableUpdated!!.dispose()
-            disposableUpdated = null
-        }
+        disposableUpdated?.dispose()
+        disposableUpdated = null
 
-        if (disposable != null) {
-            disposable!!.dispose()
-            disposable = null
-        }
+        disposable?.dispose()
+        disposable = null
     }
 
     fun checkGPSEnable(isSilent: Boolean): Boolean {

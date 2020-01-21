@@ -16,7 +16,7 @@ import com.danhtran.androidbaseproject.utils.UIUtils
  */
 abstract class BaseFragment : Fragment() {
 
-    protected var binding: ViewDataBinding
+    protected lateinit var binding: ViewDataBinding
 
     /**
      * Get root view
@@ -64,7 +64,11 @@ abstract class BaseFragment : Fragment() {
      */
     abstract fun onConfigurationChanged()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val xml = setLayout()
         if (xml != 0) {
             binding = DataBindingUtil.inflate(inflater, xml, container, false)
@@ -74,12 +78,12 @@ abstract class BaseFragment : Fragment() {
             //hide keyboard after click outside of edit text
             rootView.isClickable = true
             rootView.isFocusableInTouchMode = true
-            UIUtils.addKeyboardEvents(activity, binding.root, binding.root)
+            baseActivity?.let { UIUtils.addKeyboardEvents(it, binding.root, binding.root) }
 
             //enable options menu
             setHasOptionsMenu(true)
 
-            if (arguments != null) {
+            arguments?.let {
                 loadPassedParamsIfNeeded(arguments!!)
             }
         }
@@ -97,20 +101,20 @@ abstract class BaseFragment : Fragment() {
         super.onDestroy()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         onConfigurationChanged()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         //hide all item menu
-        for (i in 0 until menu!!.size()) {
+        for (i in 0 until menu.size()) {
             menu.getItem(i).isVisible = false
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return false
     }
 
@@ -129,18 +133,14 @@ abstract class BaseFragment : Fragment() {
      * Show progress layout
      */
     fun showProgress() {
-        if (baseActivity != null) {
-            baseActivity!!.showProgress()
-        }
+        baseActivity?.showProgress()
     }
 
     /**
      * Hide progress layout
      */
     fun hideProgress() {
-        if (baseActivity != null) {
-            baseActivity!!.hideProgress()
-        }
+        baseActivity?.hideProgress()
     }
 
     /**
@@ -159,9 +159,7 @@ abstract class BaseFragment : Fragment() {
      * Back pressed
      */
     fun onBackPressed() {
-        if (activity != null) {
-            activity!!.onBackPressed()
-        }
+        activity?.onBackPressed()
     }
 
     /**

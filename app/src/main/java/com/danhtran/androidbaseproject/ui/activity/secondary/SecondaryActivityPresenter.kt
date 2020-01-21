@@ -5,11 +5,10 @@ import com.danhtran.androidbaseproject.ui.activity.BaseActivityPresenter
 /**
  * Created by DanhTran on 8/13/2019.
  */
-class SecondaryActivityPresenter(private val listener: SecondaryActivityListener, bundle: Any) :
+class SecondaryActivityPresenter(private val listener: SecondaryActivityListener, bundle: Any?) :
     BaseActivityPresenter() {
 
     init {
-
         initFragment(bundle)
     }
 
@@ -17,9 +16,9 @@ class SecondaryActivityPresenter(private val listener: SecondaryActivityListener
 
     }
 
-    private fun initFragment(bundle: Any) {
+    private fun initFragment(bundle: Any?) {
         val tagFragment = listener.fragmentTag
-        if (tagFragment != null) {
+        tagFragment?.let {
             listener.baseActivity.setFragment(tagFragment, bundle)
         }
     }

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
  */
 
 class DividerItemDecoration(context: Context, orientation: Int, sizeSpace: Int) : RecyclerView.ItemDecoration() {
-    private val sizeSpace = 1
+    private var sizeSpace = 1
 
     private val mDivider: Drawable?
 

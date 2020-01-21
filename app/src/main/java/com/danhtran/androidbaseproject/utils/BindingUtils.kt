@@ -18,6 +18,7 @@ import com.danhtran.customglide.GlideHelper
  */
 object BindingUtils {
     //size in dp
+    @JvmStatic
     @BindingAdapter("absParams", "absWidth", "absHeight")
     fun absParams(imageView: ImageView, absParams: Boolean, width: Int, height: Int) {
         var width = width
@@ -29,6 +30,7 @@ object BindingUtils {
     }
 
     //size in dp
+    @JvmStatic
     @BindingAdapter("linearParams", "linearWidth", "linearHeight")
     fun linearParams(imageView: ImageView, linearParams: Boolean, width: Int, height: Int) {
         var width = width
@@ -40,6 +42,7 @@ object BindingUtils {
     }
 
     //size in dp
+    @JvmStatic
     @BindingAdapter("relativeParams", "relativeWidth", "relativeHeight")
     fun relativeParams(imageView: ImageView, relativeParams: Boolean, width: Int, height: Int) {
         var width = width
@@ -51,6 +54,7 @@ object BindingUtils {
     }
 
     //no size
+    @JvmStatic
     @BindingAdapter("setImage")
     fun setImage(imageView: ImageView, url: String?) {
         if (url != null) {
@@ -59,6 +63,7 @@ object BindingUtils {
     }
 
     //size in dp
+    @JvmStatic
     @BindingAdapter("setImage", "width", "height")
     fun setImage(imageView: ImageView, url: String?, width: Int, height: Int) {
         var width = width
@@ -72,6 +77,7 @@ object BindingUtils {
     }
 
     //size in dp
+    @JvmStatic
     @BindingAdapter("setImage", "width", "height", "isCircle")
     fun setImage(imageView: ImageView, url: String?, width: Int, height: Int, isCircle: Boolean) {
         var width = width
@@ -88,6 +94,7 @@ object BindingUtils {
     }
 
     //size in dp
+    @JvmStatic
     @BindingAdapter("setImage", "width", "height", "isCircle", "borderSize")
     fun setImage(imageView: ImageView, url: String?, width: Int, height: Int, isCircle: Boolean, borderSize: Int) {
         var width = width
@@ -103,6 +110,7 @@ object BindingUtils {
         }
     }
 
+    @JvmStatic
     @BindingAdapter("setImage", "radius")
     fun radiusImage(imageView: ImageView, url: String?, radius: Int) {
         if (url != null) {
@@ -111,6 +119,7 @@ object BindingUtils {
     }
 
     //height in DP
+    @JvmStatic
     @BindingAdapter("heightOfView")
     fun heightOfView(view: View, height: Int) {
         val layoutParams = view.layoutParams
@@ -118,6 +127,7 @@ object BindingUtils {
         view.layoutParams = layoutParams
     }
 
+    @JvmStatic
     @BindingAdapter("linearManager")
     fun linearManager(recyclerView: RecyclerView, _int: Int) {
         when (_int) {
@@ -148,6 +158,7 @@ object BindingUtils {
         }
     }
 
+    @JvmStatic
     @BindingAdapter("gridManager", "rows")
     fun gridManager(recyclerView: RecyclerView, _int: Int, spanCount: Int) {
         when (_int) {
@@ -158,6 +169,7 @@ object BindingUtils {
         }
     }
 
+    @JvmStatic
     @BindingAdapter("dividerItemLinear", "sizeSpace")
     fun dividerItemDecorationLinear(recyclerView: RecyclerView, type: Int, size: Int) {
         val context = recyclerView.context
@@ -169,11 +181,13 @@ object BindingUtils {
         }
     }
 
+    @JvmStatic
     @BindingAdapter("dividerItemGrid", "sizeSpace")
     fun dividerItemDecorationGrid(recyclerView: RecyclerView, column: Int, size: Int) {
         recyclerView.addItemDecoration(SpacesItemDecoration(size, column))
     }
 
+    @JvmStatic
     @BindingAdapter("hideKeyboadLostFocus")
     fun closeKeyboard(editText: EditText, id: Boolean) {
         val context = editText.context

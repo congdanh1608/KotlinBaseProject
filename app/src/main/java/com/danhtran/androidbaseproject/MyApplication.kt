@@ -15,7 +15,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig
  */
 
 class MyApplication : MultiDexApplication() {
-    var appComponent: AppComponent? = null
+    lateinit var appComponent: AppComponent
         private set
     var token: String? = null
 
@@ -72,7 +72,7 @@ class MyApplication : MultiDexApplication() {
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
-        appComponent!!.inject(this)
+        appComponent.inject(this)
 
         //language
         //        String s = SharedPrefsHelper.getInstance().readString(SharePref.LANGUAGE.toString());

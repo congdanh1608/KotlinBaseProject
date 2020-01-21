@@ -7,7 +7,7 @@ import com.danhtran.androidbaseproject.utils.EnumUtils
  * Created by danhtran on 09/04/2017.
  */
 
-enum class SharePrefs private constructor(private val value: String) {
+enum class SharePrefs private constructor(internal val value: String) {
     IS_NOT_FIRST_VIEW("is_not_first_view"),
 
     SESSION_LOGIN("SESSION_LOGIN"),

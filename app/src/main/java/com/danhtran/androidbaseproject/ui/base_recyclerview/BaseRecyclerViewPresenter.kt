@@ -3,8 +3,7 @@ package com.danhtran.androidbaseproject.ui.base_recyclerview
 import android.os.Handler
 import androidx.databinding.BaseObservable
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Created by danhtran on 11/06/2017.
@@ -51,7 +50,7 @@ abstract class BaseRecyclerViewPresenter<T> : BaseObservable, BaseRecyclerListen
                         swipeRefreshLayout!!.isRefreshing = false
                 } else {
                     adapter!!.setProgressMore(false)
-                    adapter!!.setMoreLoading(false)
+                    adapter!!.isMoreLoading = false
                 }
 
                 this@BaseRecyclerViewPresenter.items.addAll(items)
@@ -70,7 +69,7 @@ abstract class BaseRecyclerViewPresenter<T> : BaseObservable, BaseRecyclerListen
                 swipeRefreshLayout!!.isRefreshing = false
         } else {
             adapter!!.setProgressMore(false)
-            adapter!!.setMoreLoading(false)
+            adapter!!.isMoreLoading = false
         }
 
         this.items.addAll(items)
@@ -89,7 +88,7 @@ abstract class BaseRecyclerViewPresenter<T> : BaseObservable, BaseRecyclerListen
             isLoading = true
             isLoadMore = false
             adapter!!.setProgressMore(true)
-            adapter!!.setMoreLoading(true)
+            adapter!!.isMoreLoading = true
             isRefresh = false
             loadData()
         }
@@ -105,7 +104,7 @@ abstract class BaseRecyclerViewPresenter<T> : BaseObservable, BaseRecyclerListen
         loadData()
     }
 
-    override fun <T> onClickItem(item: T) {
+    override fun <T : Any> onClickItem(item: T) {
 
     }
 }

@@ -1,10 +1,7 @@
 package com.danhtran.androidbaseproject.utils
 
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 /**
  * Created by danhtran on 11/19/2018.
@@ -18,7 +15,7 @@ object TimeUtils {
      * @return
      */
     //<code>JANUARY</code> which is 0
-    val nameOldMonthYTD: Array<String>
+    val nameOldMonthYTD: Array<String?>
         get() {
             val monthCount = numberOfMonthsUntillNow()
             val months = arrayOfNulls<String>(monthCount)
@@ -58,7 +55,7 @@ object TimeUtils {
      * @param weekCount how many month from now you want to get
      * @return
      */
-    fun getNameOldMondays(weekCount: Int): Array<String> {
+    fun getNameOldMondays(weekCount: Int): Array<String?> {
         val days = arrayOfNulls<String>(weekCount)
 
         val format = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())

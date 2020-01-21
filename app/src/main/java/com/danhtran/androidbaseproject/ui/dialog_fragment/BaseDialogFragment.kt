@@ -21,7 +21,7 @@ import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
  * Created by danhtran on 5/29/15.
  */
 abstract class BaseDialogFragment : DialogFragment() {
-    protected var rootView: View
+    protected lateinit var rootView: View
     protected var binding: ViewDataBinding? = null
     private var progressLayout: View? = null
 
@@ -55,17 +55,22 @@ abstract class BaseDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(activity!!, R.style.DialogFullScreen)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        if (dialog.window != null)
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(true)
 
         when (setTypeScreen()) {
             BaseDialogFragment.TYPE.MATCH_PARENT -> {
                 val root = RelativeLayout(activity)
                 root.layoutParams =
-                    ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
                 dialog.window!!.setContentView(root)
-                dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                dialog.window!!.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
             }
             BaseDialogFragment.TYPE.WRAP_CONTENT -> dialog.window!!.setLayout(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -75,7 +80,11 @@ abstract class BaseDialogFragment : DialogFragment() {
         return dialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val xml = setLayout()
         if (xml != 0 && binding == null) {
             binding = DataBindingUtil.inflate(inflater, xml, container, false)
@@ -83,7 +92,7 @@ abstract class BaseDialogFragment : DialogFragment() {
             rootView = binding!!.root
             progressLayout = setProgressLayout()
 
-            if (arguments != null) {
+            arguments?.let {
                 loadPassedParamsIfNeeded(arguments!!)
             }
         }
@@ -96,7 +105,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         initListener()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         onConfigurationChanged()
     }
@@ -109,13 +118,11 @@ abstract class BaseDialogFragment : DialogFragment() {
     }
 
     fun showProgress() {
-        if (progressLayout != null)
-            progressLayout!!.visibility = View.VISIBLE
+        progressLayout?.visibility = View.VISIBLE
     }
 
     fun hideProgress() {
-        if (progressLayout != null)
-            progressLayout!!.visibility = View.GONE
+        progressLayout?.visibility = View.GONE
     }
 
     enum class TYPE private constructor(val value: Int) {

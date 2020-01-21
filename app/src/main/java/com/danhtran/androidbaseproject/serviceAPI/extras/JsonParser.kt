@@ -35,7 +35,7 @@ object JsonParser {
 
     @Throws(JSONException::class)
     fun <Object> fromJson(stringJson: String, classOfT: Class<Object>): Object? {
-        val `object` = JSONTokener(stringJson).nextValue() as JSONObject
+        val `object` = JSONTokener(stringJson).nextValue() as? JSONObject
         val gson = GsonBuilder().registerTypeAdapter(Date::class.java, serializerDate)
             .registerTypeAdapter(Date::class.java, deserializerDate)
             .create()
