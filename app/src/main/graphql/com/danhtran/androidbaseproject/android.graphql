@@ -1,0 +1,105 @@
+query languages {
+    languages
+}
+
+mutation signIn($email: String!, $pass: String!) {
+    signInWithEmail(
+        input: { email: $email, password: $pass }
+    ) {
+        isSuccess
+        user {
+            fullName
+            email
+        }
+        accessToken
+    }
+}
+
+
+query getAllContentsForAndroidWithPaging($languages: [Language!], $after: String, $canVoicePlay: Boolean) {
+    contentsForAndroid(languages: $languages, after: $after, canVoicePlay: $canVoicePlay) {
+        edges {
+            node {
+                ...contentDetails
+            }
+        }
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+        totalCount
+    }
+}
+
+fragment contentDetails on Content {
+    id
+    title
+    subject
+    isFavorite
+    pictureUrl
+    type
+    isPremium
+    isPurchased
+    inAppPurchaseProductId
+    language
+    isMyContent
+    discriminator
+    averageRating
+    isContentOfTheDay
+    statistics {
+        revenue
+        numberOfPurchases
+        numberOfVisits
+    }
+    bestResult {
+        score
+        isPassed
+        numberOfCorrectAnswers
+        numberOfWrongAnswers
+    }
+    ...on Lesson {
+        introduction
+        canVoicePlay
+        links {
+            url
+            title
+        }
+        canRandomizeQuestions
+        numberOfCorrectAnswersToPass
+        numberOfQuestions
+        questions {
+            ...questionDetails
+        }
+        isPlayed
+    }
+
+    ...on Playlist {
+        lessons {
+            id
+            title
+            subject
+            pictureUrl
+            isFavorite
+            bestResult {
+                score
+                isPassed
+                numberOfCorrectAnswers
+                numberOfWrongAnswers
+            }
+        }
+    }
+}
+
+fragment questionDetails on Question {
+    id
+    title
+    helpText
+    pictureUrl
+    explanation
+    explanationPictureUrl
+    options {
+        title
+        isCorrect
+        pictureUrl
+    }
+}

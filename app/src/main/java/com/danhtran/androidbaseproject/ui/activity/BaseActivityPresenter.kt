@@ -7,9 +7,9 @@ import io.reactivex.disposables.Disposable
  * Created by DanhTran on 5/31/2019.
  */
 abstract class BaseActivityPresenter {
-    private val disposable: Disposable
-    private val disposable2: Disposable
-    private val disposable3: Disposable
+    protected var disposable: Disposable
+    protected var disposable2: Disposable
+    protected var disposable3: Disposable
 
     abstract fun initInject()
 

@@ -13,4 +13,7 @@ object Constant {
 
     val REQUEST_CODE_RESULT_LOCATION_PERMISSION = 1000
     val REQUEST_CODE_RESULT_LOCATION_ON_OFF = 1001
+
+    val CACHE = "/cache/"
+
 }

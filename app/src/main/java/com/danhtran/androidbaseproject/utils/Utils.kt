@@ -1,18 +1,16 @@
 package com.danhtran.androidbaseproject.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
-import android.content.pm.Signature
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Base64
 import com.danhtran.androidbaseproject.MyApplication
 import com.orhanobut.logger.Logger
-
 import java.security.MessageDigest
 
 /**
@@ -71,9 +69,15 @@ object Utils {
      * @param activity activity
      */
     fun goToPlayStore(activity: Activity) {
-        val appPackageName = MyApplication.instance().packageName // getPackageName() from Context or Activity object
+        val appPackageName =
+            MyApplication.instance().packageName // getPackageName() from Context or Activity object
         try {
-            activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+            activity.startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=$appPackageName")
+                )
+            )
         } catch (anfe: android.content.ActivityNotFoundException) {
             activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlApp)))
         }
@@ -99,13 +103,17 @@ object Utils {
         activity.startActivity(Intent.createChooser(intent, activity.getString(R.string.send_email)));
     }*/
 
+    @SuppressLint("PackageManagerGetSignatures")
     fun generalSHAKey(context: Context) {
         try {
             //by facebook sdk
             /*FacebookSdk.sdkInitialize(getApplicationContext());
             Log.d("AppLog", "key:" + FacebookSdk.getApplicationSignature(this));*/
             //or without facebook sdk
-            val info = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
+            val info = context.packageManager.getPackageInfo(
+                context.packageName,
+                PackageManager.GET_SIGNATURES
+            )
             for (signature in info.signatures) {
                 val md = MessageDigest.getInstance("SHA")
                 md.update(signature.toByteArray())

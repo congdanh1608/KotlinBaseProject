@@ -51,6 +51,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
     packagingOptions {
         exclude 'META-INF/proguard/androidx-annotations.pro'
         exclude 'META-INF/*'
@@ -88,18 +91,21 @@ android {
     }
     productFlavors {
         develop {
+            buildConfigField("String", "serverUrl", "\"http://157.230.113.97:3000/graphql\"")
             resValue 'string', 'domainAPI', 'https://animeloversapp.com:3000/api/'
             resValue 'string', 'facebookAppId', '641215556070654'
 
             flavorDimensions "default"
         }
         staging {
+            buildConfigField("String", "serverUrl", "\"http://157.230.113.97:3000/graphql\"")
             resValue 'string', 'domainAPI', 'https://animeloversapp.com:3000/api/'
             resValue 'string', 'facebookAppId', '641215556070654'
 
             flavorDimensions "default"
         }
         production {
+            buildConfigField("String", "serverUrl", "\"http://157.230.113.97:3000/graphql\"")
             resValue 'string', 'domainAPI', 'https://animeloversapp.com:3000/api/'
             resValue 'string', 'facebookAppId', '641215556070654'
 
@@ -215,6 +221,9 @@ dependencies {
 
     //halcyon_logger
     implementation "com.lhalcyon:okhttp-logger-interceptor:1.0.2"
+    implementation "com.squareup.okhttp3:okhttp:4.0.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.0.1"
+
 
     //dexter - permission requirement
     implementation "com.karumi:dexter:5.0.0"

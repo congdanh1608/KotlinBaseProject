@@ -42,8 +42,8 @@ object UIUtils {
      * @param view    view
      */
     fun hideSoftKeyboard(context: Context, view: View) {
-        context?.let {
-            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager ?: return
+        context.let {
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
@@ -54,7 +54,7 @@ object UIUtils {
      * @param activity activity
      */
     fun hideSoftKeyboard(activity: Activity) {
-        activity?.let {
+        activity.let {
             val inputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             activity.currentFocus?.let {
                 inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
