@@ -9,7 +9,8 @@ enum class SnackBarType private constructor(val value: Int) {
     SUCCESS(0),
     ERROR(1),
     INFO(2),
-    WARNING(3);
+    NORMAL(3),
+    WARNING(4);
 
 
     companion object {

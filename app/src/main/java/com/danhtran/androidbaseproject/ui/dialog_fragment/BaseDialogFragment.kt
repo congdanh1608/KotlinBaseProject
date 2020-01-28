@@ -25,6 +25,9 @@ abstract class BaseDialogFragment : DialogFragment() {
     protected var binding: ViewDataBinding? = null
     private var progressLayout: View? = null
 
+    protected var isRunning = false    //flag to know is dialog fragment running.
+    protected var isDismiss = false    //flag to dismiss the dialog after resume
+
     val baseActivity: BaseAppCompatActivity?
         get() = if (activity is BaseAppCompatActivity) {
             activity as BaseAppCompatActivity?
@@ -55,28 +58,31 @@ abstract class BaseDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(activity!!, R.style.DialogFullScreen)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCanceledOnTouchOutside(true)
+        val window = dialog.window
+        window?.let {
+            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        when (setTypeScreen()) {
-            BaseDialogFragment.TYPE.MATCH_PARENT -> {
-                val root = RelativeLayout(activity)
-                root.layoutParams =
-                    ViewGroup.LayoutParams(
+            when (setTypeScreen()) {
+                BaseDialogFragment.TYPE.MATCH_PARENT -> {
+                    val root = RelativeLayout(activity)
+                    root.layoutParams =
+                        ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                    window.setContentView(root)
+                    window.setLayout(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                     )
-                dialog.window!!.setContentView(root)
-                dialog.window!!.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
+                }
+                BaseDialogFragment.TYPE.WRAP_CONTENT -> window.setLayout(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
                 )
             }
-            BaseDialogFragment.TYPE.WRAP_CONTENT -> dialog.window!!.setLayout(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
         }
+        dialog.setCanceledOnTouchOutside(true)
         return dialog
     }
 
@@ -86,7 +92,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val xml = setLayout()
-        if (xml != 0 && binding == null) {
+        if (xml != 0) {
             binding = DataBindingUtil.inflate(inflater, xml, container, false)
             initUI()
             rootView = binding!!.root
@@ -115,6 +121,28 @@ abstract class BaseDialogFragment : DialogFragment() {
      */
     protected fun loadPassedParamsIfNeeded(extras: Bundle) {
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isRunning = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isRunning = true
+
+        if (isDismiss) {
+            dismiss()
+        }
+    }
+
+    override fun dismiss() {
+        if (isRunning) {
+            super.dismiss()
+        } else {
+            isDismiss = true       //will dismiss when fragment is visible
+        }
     }
 
     fun showProgress() {

@@ -1,6 +1,7 @@
 package com.danhtran.androidbaseproject.serviceAPI.extras
 
 import com.google.gson.*
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -51,5 +52,23 @@ object JsonParser {
         }
 
         return jsonData
+    }
+
+    fun isJsonValid(json: String?): Boolean {
+        if (json == null || json.isEmpty()) {
+            return false
+        }
+        try {
+            JSONObject(json)
+        } catch (ex: JSONException) {
+            try {
+                JSONArray(json)
+            } catch (ex1: JSONException) {
+                return false
+            }
+
+        }
+
+        return true
     }
 }

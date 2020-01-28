@@ -34,10 +34,10 @@ class MainActivityPresenter(private val listener: MainActivityListener) : BaseAc
         disposable = authenticationService.getLanguages()
             .subscribe(
                 {
-                    Log.d("Danh", "Success")
+                    Log.d("Result", "Success")
                 },
                 {
-                    Log.d("Danh", "fail")
+                    Log.d("Result", "fail")
                 })
     }
 }

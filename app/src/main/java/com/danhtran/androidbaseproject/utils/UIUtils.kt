@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -33,6 +34,21 @@ object UIUtils {
             fragmentManager = parent.activity!!.supportFragmentManager
         dialogFragment.setTargetFragment(parent, requestCode)
         dialogFragment.show(fragmentManager!!, tag)
+    }
+
+
+    fun showDialogFragment(
+        dialogFragment: DialogFragment,
+        activity: AppCompatActivity,
+        tag: String
+    ) {
+        val ft = activity.supportFragmentManager.beginTransaction()
+        val prev = activity.supportFragmentManager.findFragmentByTag(tag)
+        if (prev != null) {
+            ft.remove(prev)
+        }
+        ft.addToBackStack(null)
+        dialogFragment.show(ft, tag)
     }
 
     /**
@@ -84,6 +100,14 @@ object UIUtils {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
     }
+
+    fun clearDialogFocus(activity: Activity, dialogLayout: View) {
+        dialogLayout.isFocusable = true
+        dialogLayout.isFocusableInTouchMode = true
+        dialogLayout.requestFocus()
+        hideSoftKeyboard(activity, dialogLayout)
+    }
+
 
     /**
      * Clear focus for edit text

@@ -1,8 +1,8 @@
 package com.danhtran.androidbaseproject.utils
 
+import android.app.Activity
 import android.content.Context
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.extras.enums.SnackBarType
 import de.mateware.snacky.Snacky
@@ -18,36 +18,78 @@ object SnackBarUtils {
      *
      * @param view         view
      * @param text         int message
+     * @param textColor    int message color
      * @param isCenterText is center message text
      * @param snackBarType type of snack bar
      */
-    fun showSnackBar(view: View, text: Int, isCenterText: Boolean, snackBarType: SnackBarType) {
+    fun showSnackBar(
+        view: View,
+        text: Int,
+        textColor: Int,
+        isCenterText: Boolean,
+        snackBarType: SnackBarType
+    ) {
         val context = view.context
         val builder = Snacky.builder()
         builder.setView(view)
             .setText(context.getString(text))
+            .setTextColor(DeprecatedUtils.getResourceColor(textColor))
             .setDuration(Snacky.LENGTH_SHORT)
         if (isCenterText) builder.centerText()
-        setStyle(builder, context, snackBarType)
+        setTypeTemplate(builder, snackBarType)
         builder.build().show()
     }
 
     /**
      * Show Snack Bar
      *
-     * @param view         view
-     * @param text         message
+     * @param activity     activity
+     * @param text         int message
+     * @param textColor    int message color
      * @param isCenterText is center message text
      * @param snackBarType type of snack bar
      */
-    fun showSnackBar(view: View, text: String, isCenterText: Boolean, snackBarType: SnackBarType) {
-        val context = view.context
+    fun showSnackBar(
+        activity: Activity,
+        text: Int,
+        textColor: Int,
+        isCenterText: Boolean,
+        snackBarType: SnackBarType
+    ) {
+        val context = activity.baseContext
         val builder = Snacky.builder()
-        builder.setView(view)
-            .setText(text)
+        builder.setActivity(activity)
+            .setText(context.getString(text))
+            .setTextColor(DeprecatedUtils.getResourceColor(textColor))
             .setDuration(Snacky.LENGTH_SHORT)
         if (isCenterText) builder.centerText()
-        setStyle(builder, context, snackBarType)
+        setTypeTemplate(builder, snackBarType)
+        builder.build().show()
+    }
+
+    /**
+     * Show Snack Bar
+     *
+     * @param activity     Activity
+     * @param text         String message
+     * @param textColor    int message color
+     * @param isCenterText is center message text
+     * @param snackBarType type of snack bar
+     */
+    fun showSnackBar(
+        activity: Activity,
+        text: String,
+        textColor: Int,
+        isCenterText: Boolean,
+        snackBarType: SnackBarType
+    ) {
+        val builder = Snacky.builder()
+        builder.setActivity(activity)
+            .setText(text)
+            .setTextColor(DeprecatedUtils.getResourceColor(textColor))
+            .setDuration(Snacky.LENGTH_SHORT)
+        if (isCenterText) builder.centerText()
+        setTypeTemplate(builder, snackBarType)
         builder.build().show()
     }
 
@@ -56,92 +98,114 @@ object SnackBarUtils {
      *
      * @param view            view
      * @param text            int message
+     * @param textColor       int message color
      * @param actionText      int action message
+     * @param actionColor     int action color
      * @param onClickListener listener for action click event
      * @param snackBarType    snack type
      */
     fun showSnackBarWithAction(
-        view: View, text: Int, actionText: Int,
+        view: View, text: Int, textColor: Int, actionText: Int, actionColor: Int,
         onClickListener: View.OnClickListener, snackBarType: SnackBarType
     ) {
         val context = view.context
         val builder = Snacky.builder()
         builder.setView(view)
             .setText(context.getString(text))
+            .setTextColor(DeprecatedUtils.getResourceColor(textColor))
             .setActionText(actionText)
+            .setActionTextColor(actionColor)
             .setActionClickListener(onClickListener)
             .setDuration(Snacky.LENGTH_SHORT)
-        setStyle(builder, context, snackBarType)
+        setTypeTemplate(builder, snackBarType)
+        builder.build().show()
+    }
+
+    /**
+     * Show Snack bar with action
+     *
+     * @param activity        activity
+     * @param text            int message
+     * @param textColor       int message color
+     * @param actionText      int action message
+     * @param actionColor     int action color
+     * @param onClickListener listener for action click event
+     * @param snackBarType    snack type
+     */
+    fun showSnackBarWithAction(
+        activity: Activity, text: Int, textColor: Int, actionText: Int, actionColor: Int,
+        onClickListener: View.OnClickListener, snackBarType: SnackBarType
+    ) {
+        val context = activity.baseContext
+        val builder = Snacky.builder()
+        builder.setActivity(activity)
+            .setText(context.getString(text))
+            .setTextColor(DeprecatedUtils.getResourceColor(textColor))
+            .setActionText(context.getString(actionText))
+            .setActionTextColor(actionColor)
+            .setActionClickListener(onClickListener)
+            .setDuration(Snacky.LENGTH_SHORT)
+        setTypeTemplate(builder, snackBarType)
         builder.build().show()
     }
 
     /**
      * Show indenfinite snack bar with action
      *
-     * @param view            view
+     * @param activity        activity
      * @param text            int message
+     * @param textColor       int message color
      * @param actionText      int action message
+     * @param actionColor     int action color
      * @param onClickListener listener for action click event
      * @param snackBarType    snack bar type
      */
     fun showIndenfiniteSnackBarWithAction(
-        view: View, text: Int, actionText: Int,
+        activity: Activity, text: Int, textColor: Int, actionText: Int, actionColor: Int,
         onClickListener: View.OnClickListener, snackBarType: SnackBarType
     ) {
-        val context = view.context
+        val context = activity.baseContext
         val builder = Snacky.builder()
-        builder.setView(view)
+        builder.setActivity(activity)
             .setText(context.getString(text))
+            .setTextColor(DeprecatedUtils.getResourceColor(textColor))
             .setActionText(context.getString(actionText))
+            .setActionTextColor(actionColor)
             .setActionClickListener(onClickListener)
             .setDuration(Snacky.LENGTH_INDEFINITE)
-        setStyle(builder, context, snackBarType)
+        setTypeTemplate(builder, snackBarType)
         builder.build().show()
     }
 
     /**
      * Show general error message
      *
-     * @param parentView parentView
-     * @param message    message text
+     * @param context context
+     * @param message message text
      */
-    fun showGeneralError(parentView: View, message: String) {
-        showSnackBar(parentView, message, true, SnackBarType.ERROR)
+    fun showGeneralError(context: Context, message: String) {
+        showSnackBar(context as Activity, message, R.color.colorWhite, true, SnackBarType.ERROR)
     }
 
     /**
      * Show general notify message
      *
-     * @param parentView parent view
-     * @param message    message text
+     * @param context context
+     * @param message message text
      */
-    fun showGeneralNotify(parentView: View, message: String) {
-        showSnackBar(parentView, message, true, SnackBarType.INFO)
+    fun showGeneralNotify(context: Context, message: String) {
+        showSnackBar(context as Activity, message, R.color.colorWhite, true, SnackBarType.INFO)
     }
 
-    //set style for snack bar
-    private fun setStyle(builder: Snacky.Builder, context: Context, snackBarType: SnackBarType) {
+    //set template for snackbar
+    private fun setTypeTemplate(builder: Snacky.Builder, snackBarType: SnackBarType) {
         when (snackBarType) {
-            SnackBarType.ERROR -> {
-                builder.setBackgroundColor(ContextCompat.getColor(context, R.color.colorError))
-                builder.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
-                builder.error()
+            SnackBarType.ERROR -> builder.error()
+            SnackBarType.INFO -> builder.info()
+            SnackBarType.NORMAL -> {
             }
-            SnackBarType.INFO -> {
-                builder.setBackgroundColor(ContextCompat.getColor(context, R.color.colorInfo))
-                builder.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
-                builder.info()
-            }
-            SnackBarType.SUCCESS -> {
-                builder.setBackgroundColor(ContextCompat.getColor(context, R.color.colorSuccess))
-                builder.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
-                builder.success()
-            }
-            SnackBarType.WARNING -> {
-                builder.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWarning))
-                builder.setTextColor(ContextCompat.getColor(context, R.color.colorWhite))
-                builder.warning()
-            }
+            SnackBarType.SUCCESS -> builder.success()
+            SnackBarType.WARNING -> builder.warning()
         }
     }
 }
