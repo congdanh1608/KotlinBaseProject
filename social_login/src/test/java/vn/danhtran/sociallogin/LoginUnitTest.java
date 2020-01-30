@@ -1,6 +1,6 @@
 package vn.danhtran.sociallogin;
 
-import com.glide.sociallogin.SocialLogin;
+import com.login.sociallogin.SocialLogin;
 
 import org.junit.Before;
 import org.junit.Test;
