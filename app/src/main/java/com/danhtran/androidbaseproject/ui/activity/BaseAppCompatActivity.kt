@@ -317,7 +317,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      * @param isFinish is finish previous activity?
      */
     @JvmOverloads
-    fun startActivity(tag: String, bundle: Bundle?, isFinish: Boolean = true) {
+    fun startActivity(tag: String, bundle: Bundle?, isFinish: Boolean = false) {
         val intent = getIntentActivity(tag)
 
         if (intent != null) {
@@ -464,15 +464,3 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
         destroyProgressDialog()
     }
 }
-/**
- * set fragment for current activity
- *
- * @param tag  tag name
- * @param data data
- */
-/**
- * start activity and finish current activity
- *
- * @param tag    tag name
- * @param bundle bundle
- */
