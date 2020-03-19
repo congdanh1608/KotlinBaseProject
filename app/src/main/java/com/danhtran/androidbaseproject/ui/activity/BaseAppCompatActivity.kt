@@ -29,7 +29,8 @@ import java.util.*
  * Created by danhtran on 2/26/2018.
  */
 
-abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
+abstract class BaseAppCompatActivity : AppCompatActivity(),
+    FragmentManager.OnBackStackChangedListener {
 
     /**
      * get View Data Binding
@@ -172,9 +173,6 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
             UIUtils.addKeyboardEvents(this, binding!!.root, binding!!.root)
         }
 
-        //init progress dialog
-        createProgressDialog()
-
         //init
         initFragmentManager()
         initUI()
@@ -204,11 +202,9 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
             UIUtils.removeKeyboardEvents(binding!!.root)
         }
 
-        for (dialog in setOfDialogs) {
-            dialog.dismiss()
-        }
-
         unRegisterReceiver()
+
+        destroyProgressDialog()
 
         super.onDestroy()
     }
@@ -433,7 +429,10 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
 
         val dialogWindow = progressDialog!!.window
         dialogWindow?.let {
-            dialogWindow.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            dialogWindow.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
             dialogWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         }
@@ -441,10 +440,19 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
         addDialog(progressDialog)
     }
 
+    private fun destroyProgressDialog() {
+        for (dialog in setOfDialogs) {
+            dialog.dismiss()
+        }
+    }
+
     /**
      * Show progress layout
      */
     fun showProgress() {
+        //init progress dialog
+        createProgressDialog()
+        //show
         progressDialog?.show()
     }
 
@@ -453,6 +461,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
      */
     fun hideProgress() {
         progressDialog?.hide()
+        destroyProgressDialog()
     }
 }
 /**
