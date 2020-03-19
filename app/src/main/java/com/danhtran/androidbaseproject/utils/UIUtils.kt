@@ -3,6 +3,7 @@ package com.danhtran.androidbaseproject.utils
 import android.app.Activity
 import android.content.Context
 import android.os.Build
+import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -26,7 +27,12 @@ object UIUtils {
      * @param tag            tag name of dialog fragment
      * @param requestCode    request code for result returned
      */
-    fun showDialogFragment(dialogFragment: DialogFragment, parent: Fragment, tag: String, requestCode: Int) {
+    fun showDialogFragment(
+        dialogFragment: DialogFragment,
+        parent: Fragment,
+        tag: String,
+        requestCode: Int
+    ) {
         val fragmentManager: FragmentManager?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             fragmentManager = parent.fragmentManager
@@ -71,13 +77,13 @@ object UIUtils {
      */
     fun hideSoftKeyboard(activity: Activity) {
         activity.let {
-            val inputMethodManager = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            val inputMethodManager =
+                activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             activity.currentFocus?.let {
                 inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
             }
         }
     }
-
 
     /**
      * Show soft keyboard
@@ -85,12 +91,13 @@ object UIUtils {
      * @param context context
      */
     fun showSoftKeyboard(context: Context) {
-        val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
     /**
-     * Show soft keyboad with edit text
+     * Show soft keyboard with edit text
      *
      * @param editText edit text
      * @param context  context
@@ -99,6 +106,18 @@ object UIUtils {
         editText.requestFocus()
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    /**
+     * show soft keyboard with edit text after 500ms
+     */
+    fun showSoftKeyboardDelay(editText: EditText, context: Context) {
+        Handler().postDelayed({
+            editText.requestFocus()
+            val imm =
+                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+        }, 500)
     }
 
     fun clearDialogFocus(activity: Activity, dialogLayout: View) {

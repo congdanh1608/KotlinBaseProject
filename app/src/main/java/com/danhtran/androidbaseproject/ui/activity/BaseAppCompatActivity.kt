@@ -48,7 +48,6 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
         protected set
     private var backButtonCount = 0
 
-    private var progressDialog: Dialog? = null
     protected var setOfDialogs: MutableCollection<Dialog> = LinkedHashSet()
 
     /**
@@ -417,17 +416,17 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
 
     //region Show Background Progress
     private fun createProgressDialog() {
-        progressDialog = Dialog(this, R.style.DialogFullScreen)
+        val progressDialog = Dialog(this, R.style.DialogFullScreen)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.process_dialog, null)
         //show view
         val view = dialogView.findViewById<View>(R.id.progressBar)
         view.visibility = View.VISIBLE
 
-        progressDialog!!.setContentView(dialogView)
-        progressDialog!!.setCancelable(false)
+        progressDialog.setContentView(dialogView)
+        progressDialog.setCancelable(false)
 
-        val dialogWindow = progressDialog!!.window
+        val dialogWindow = progressDialog.window
         dialogWindow?.let {
             dialogWindow.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -436,6 +435,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
             dialogWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         }
+        progressDialog.show()
 
         addDialog(progressDialog)
     }
@@ -452,15 +452,12 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     fun showProgress() {
         //init progress dialog
         createProgressDialog()
-        //show
-        progressDialog?.show()
     }
 
     /**
      * Hide progress layout
      */
     fun hideProgress() {
-        progressDialog?.hide()
         destroyProgressDialog()
     }
 }
