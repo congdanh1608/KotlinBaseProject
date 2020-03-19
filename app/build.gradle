@@ -21,7 +21,7 @@ android {
         applicationId rootProject.ext.applicationId
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.generateVersionCode()
+        versionCode rootProject.ext.versionCode
         versionName rootProject.generateVersionName()
 
         //support vector drawables for android < 21
