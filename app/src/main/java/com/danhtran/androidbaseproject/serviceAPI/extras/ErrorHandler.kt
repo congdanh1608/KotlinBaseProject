@@ -8,8 +8,6 @@ import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.serviceAPI.model.ResponseModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.danhtran.androidbaseproject.utils.SnackBarUtils
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import retrofit2.HttpException
@@ -103,14 +101,6 @@ object ErrorHandler {
                 MyApplication.instance().getString(idMessage),
                 Toast.LENGTH_LONG
             ).show()
-        }
-    }
-
-    fun showApiException(exception: Exception, context: Context, notifyMessage: String) {
-        if (exception is ApiException) {
-            when (exception.statusCode) {
-                CommonStatusCodes.NETWORK_ERROR -> showNotify(context, notifyMessage)
-            }
         }
     }
 

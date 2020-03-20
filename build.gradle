@@ -13,14 +13,14 @@ buildscript {
     ext.versionCode = 1
 
     //libraries version
-    ext.kotlin_version = '1.3.50'
+    ext.kotlin_version = '1.3.61'
     ext.gradle_version = '3.4.2'
     ext.google_service_version = '4.3.0'
     ext.google_play_service_version = '17.0.0'
     ext.appcompat_version = '1.1.0'
     ext.dagger_version = '2.24'
     ext.retrofit_version = '2.6.1'
-    ext.room_version = '2.2.3'
+    ext.room_version = '2.2.4'
     ext.okhttp_version = '4.0.1'
     ext.glide_version = '4.9.0'
     ext.apollo_version = '1.2.1'
@@ -28,21 +28,18 @@ buildscript {
     repositories {
         google()
         jcenter()
-
-        //firebase crashlytic
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
     }
 
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
-        classpath "com.google.gms:google-services:$google_service_version"
+//        classpath "com.google.gms:google-services:$google_service_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'io.fabric.tools:gradle:1.31.2'  // Crashlytics plugin
-        classpath "com.apollographql.apollo:apollo-gradle-plugin:$apollo_version"    //apollo
+        // Add the Firebase Crashlytics Gradle plugin.
+//        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta02'
+        //apollo
+        classpath "com.apollographql.apollo:apollo-gradle-plugin:$apollo_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -53,11 +50,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        //for snacky
-        maven { url "https://jitpack.io" }
-        //firebase crashlytic
-        maven { url 'https://maven.fabric.io/public' }
-        //image picker
+        //for snacky + image picker
         maven { url "https://jitpack.io" }
     }
 }
