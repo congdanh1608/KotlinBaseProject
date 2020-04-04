@@ -12,7 +12,11 @@ import com.livefront.bridge.SavedStateHandler
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
+import io.reactivex.exceptions.UndeliverableException
+import io.reactivex.plugins.RxJavaPlugins
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
+import java.io.IOException
+import java.net.SocketException
 
 
 /**
@@ -34,20 +38,23 @@ class MyApplication : MultiDexApplication() {
         initData()
     }
 
+
+    //region init SDK
     private fun initSDK() {
         initBridge()
         initHawk()
         initFont()
         initLogger()
+        initRxJavaErrorHandler()
     }
 
     //init fonts for app
     private fun initFont() {
         CalligraphyConfig.initDefault(
-            CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Helvetica.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
+                CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Helvetica.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
         )
     }
 
@@ -75,10 +82,43 @@ class MyApplication : MultiDexApplication() {
         })
     }
 
+    private fun initRxJavaErrorHandler() {
+        RxJavaPlugins.setErrorHandler { throwable: Throwable ->
+            if (throwable is UndeliverableException) {
+                throwable.cause?.let {
+                    Thread.currentThread().uncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), it)
+                    return@setErrorHandler
+                }
+            }
+            if (throwable is IOException || throwable is SocketException) {
+                // fine, irrelevant network problem or API that throws on cancellation
+                return@setErrorHandler
+            }
+            if (throwable is InterruptedException) {
+                // fine, some blocking code was interrupted by a dispose call
+                return@setErrorHandler
+            }
+            if (throwable is NullPointerException || throwable is IllegalArgumentException) {
+                // that's likely a bug in the application
+                Thread.currentThread().uncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), throwable)
+                return@setErrorHandler
+            }
+            if (throwable is IllegalStateException) {
+                // that's a bug in RxJava or in a custom operator
+                Thread.currentThread().uncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), throwable)
+                return@setErrorHandler
+            }
+            Logger.w("Undeliverable exception received, not sure what to do ${throwable.message}")
+        }
+    }
+    //endregion init SDK
+
+
+    //region init Data
     private fun initData() {
         appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(this))
-            .build()
+                .appModule(AppModule(this))
+                .build()
         appComponent.inject(this)
 
         //language
@@ -92,6 +132,8 @@ class MyApplication : MultiDexApplication() {
         //secret key
         //        Utils.generalSHAKey(this);
     }
+    //endregion init Data
+
 
     companion object {
         private lateinit var myApplication: MyApplication
