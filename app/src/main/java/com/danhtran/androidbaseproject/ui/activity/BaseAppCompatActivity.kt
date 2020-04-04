@@ -289,10 +289,13 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      * @param isAddBackStack does add this fragment into backstack?
      */
     @JvmOverloads
-    fun setFragment(tag: String, data: Any?, isAddBackStack: Boolean = true) {
+    fun setFragment(tag: String, bundle: Bundle?, isAddBackStack: Boolean = true) {
         val fragmentPopped = myFragmentManager!!.popBackStackImmediate(tag, 0)
         if (!fragmentPopped) {
-            val fragment = getFragment(tag, data)
+            val fragment = getFragment(tag)
+            bundle?.let {
+                fragment?.arguments = bundle
+            }
             if (fragment != null) {
                 val transaction = myFragmentManager!!.beginTransaction()
                 transaction.setCustomAnimations(
@@ -311,7 +314,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     }
 
     //get fragment by tag and data
-    private fun getFragment(tag: String, data: Any?): BaseFragment? {
+    private fun getFragment(tag: String): BaseFragment? {
         /*if (Fragment1.class.getName().equals(tag)) {
             return new Fragment1();
         } */

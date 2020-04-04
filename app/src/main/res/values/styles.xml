@@ -17,6 +17,13 @@
         <item name="android:windowBackground">@drawable/launch_splash_screen</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/colorWhite</item>
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="DialogFullScreen" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -29,5 +36,17 @@
         <item name="android:textColor">@color/colorBlack</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="fontPath">fonts/Helvetica.ttf</item>
+    </style>
+
+    <!--    Drawer navigation-->
+    <style name="NavigationTheme" parent="AppTheme">
+        <item name="android:textSize">@dimen/textXSmall</item>
+        <item name="android:layout_marginBottom">@dimen/sizex0_5</item>
+    </style>
+
+    <!--    Font path-->
+    <style name="TextAppearance.FontPath" parent="android:TextAppearance">
+        <!-- Custom Attr-->
+        <item name="fontPath">fonts/Roboto-Medium.ttf</item>
     </style>
 </resources>

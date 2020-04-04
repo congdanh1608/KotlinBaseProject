@@ -266,7 +266,7 @@ dependencies {
     //implementation 'com.github.hkk595:Resizer:v1.5'
 
     //Image picker
-    implementation 'com.github.martin90s:ImagePicker:v1.3.2'
+//    implementation 'com.github.martin90s:ImagePicker:v1.3.2'
 
     //A library for avoiding TransactionTooLargeException during state saving and restoration. This issue may happen on Android 7
     implementation 'com.github.livefront:bridge:v1.2.1'

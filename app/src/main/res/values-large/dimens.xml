@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sizex0_5">3dp</dimen>
+    <dimen name="sizex1">6dp</dimen>
+    <dimen name="sizex1_5">9dp</dimen>
+    <dimen name="sizex2">12dp</dimen>
+    <dimen name="sizex2_5">15dp</dimen>
+    <dimen name="sizex3">18dp</dimen>
+    <dimen name="sizex3_5">21dp</dimen>
+    <dimen name="sizex4">24dp</dimen>
+    <dimen name="sizex5">30dp</dimen>
+    <dimen name="sizex6">36dp</dimen>
+    <dimen name="sizex7">42dp</dimen>
+    <dimen name="sizex8">48dp</dimen>
+    <dimen name="sizex9">54dp</dimen>
+    <dimen name="sizex10">60dp</dimen>
+    <dimen name="sizex11">66dp</dimen>
+    <dimen name="sizex12">72dp</dimen>
+    <dimen name="sizex13">78dp</dimen>
+    <dimen name="sizex14">84dp</dimen>
+    <dimen name="sizex15">90dp</dimen>
+    <dimen name="sizex16">96dp</dimen>
+    <dimen name="sizex17">102dp</dimen>
+    <dimen name="sizex18">108dp</dimen>
+    <dimen name="sizex19">114dp</dimen>
+    <dimen name="sizex20">120dp</dimen>
+    <dimen name="sizex21">126dp</dimen>
+    <dimen name="sizex22">132dp</dimen>
+    <dimen name="sizex23">138dp</dimen>
+    <dimen name="sizex24">144dp</dimen>
+    <dimen name="sizex25">150dp</dimen>
+    <dimen name="sizex26">156dp</dimen>
+    <dimen name="sizex27">162dp</dimen>
+    <dimen name="sizex28">168dp</dimen>
+    <dimen name="sizex29">174dp</dimen>
+    <dimen name="sizex30">180dp</dimen>
+    <dimen name="sizex33">198dp</dimen>
+    <dimen name="sizex35">210dp</dimen>
+    <dimen name="sizex37">222dp</dimen>
+    <dimen name="sizex40">240dp</dimen>
+    <dimen name="sizex45">270dp</dimen>
+    <dimen name="sizex47">282dp</dimen>
+    <dimen name="sizex49">294dp</dimen>
+    <dimen name="sizex50">300dp</dimen>
+    <dimen name="sizex52">312dp</dimen>
+    <dimen name="sizex53">318dp</dimen>
+    <dimen name="sizex55">330dp</dimen>
+    <dimen name="sizex60">360dp</dimen>
+    <dimen name="sizex63">378dp</dimen>
+    <dimen name="sizex65">390dp</dimen>
+    <dimen name="sizex70">420dp</dimen>
+    <dimen name="sizex75">450dp</dimen>
+    <dimen name="sizex80">480dp</dimen>
+    <dimen name="sizex85">510dp</dimen>
+    <dimen name="sizex90">540dp</dimen>
+    <dimen name="sizex95">570dp</dimen>
+    <dimen name="sizex100">600dp</dimen>
+
+    <dimen name="textXXXSmall">10sp</dimen>
+    <dimen name="textXXSmall">13sp</dimen>
+    <dimen name="textXxSmall">14sp</dimen>
+    <dimen name="textXSmall">15sp</dimen>
+    <dimen name="textSmall">18sp</dimen>
+    <dimen name="textMedium">20sp</dimen>
+    <dimen name="textMediumLarge">23sp</dimen>
+    <dimen name="textLarge">25sp</dimen>
+    <dimen name="textXLarge">30sp</dimen>
+    <dimen name="textXXLarge">35sp</dimen>
+
+    <dimen name="textHeader1">38sp</dimen>
+    <dimen name="textHeader2">50sp</dimen>
+    <dimen name="textHeader3">68sp</dimen>
+
+    <dimen name="menuWidth">340dp</dimen>
+    <dimen name="lineHeight">1dp</dimen>
+    <dimen name="lineHorizontal">1dp</dimen>
+
+    <dimen name="image_height_big">256dp</dimen>
+    <dimen name="image_width_big">192dp</dimen>
+
+    <dimen name="image_height">221dp</dimen>
+    <dimen name="image_width">166dp</dimen>
+</resources>
