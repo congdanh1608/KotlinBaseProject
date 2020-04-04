@@ -1,5 +1,6 @@
-package com.danhtran.androidbaseproject.extras.receiver
 
+package com.danhtran.androidbaseproject.extras.receiver
+/*
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -26,9 +27,11 @@ import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.EventBus
 import pl.charmas.android.reactivelocation2.ReactiveLocationProvider
 
+*/
 /**
  * Created by danh.tran on 04/08/16.
- */
+ *//*
+
 
 class GPSReceiver(private val context: Context, private val listener: GPSReceiverListener?) : BroadcastReceiver() {
 
@@ -86,7 +89,8 @@ class GPSReceiver(private val context: Context, private val listener: GPSReceive
                     //                        .switchIfEmpty(locationProvider.getUpdatedLocation(locationRequest))
                     .switchIfEmpty(object : Observable<Location>() {
                         override fun subscribeActual(observer: Observer<in Location>?) {
-                            /*FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(appContext);
+                            */
+/*FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(appContext);
                                 fusedLocationClient.getLastLocation()
                                         .addOnSuccessListener(new OnSuccessListener<Location>() {
                                             @Override
@@ -101,7 +105,8 @@ class GPSReceiver(private val context: Context, private val listener: GPSReceive
                                                     GPSReceiver.this.lastLocation = location;
                                                 }
                                             }
-                                        });*/
+                                        });*//*
+
                             stopLastKnowLocationRequest()
                             disposable2 = locationProvider.getUpdatedLocation(locationRequest)
                                 .subscribe({ location ->
@@ -194,14 +199,16 @@ class GPSReceiver(private val context: Context, private val listener: GPSReceive
                     isFirstReceive = false
 
                     EventBus.getDefault().post(EventBusKey.GPS_ON_OFF.value)
-                    /*switch (currentType) {
+                    */
+/*switch (currentType) {
                         case TYPE_REQUEST_LAST_KNOW:
                             requestLocationLastKnow();
                             break;
                         case TYPE_REQUEST_UPDATE:
                             requestLocationUpdate();
                             break;
-                    }*/
+                    }*//*
+
                 } else {
                     isFirstReceive = true
                 }
@@ -274,3 +281,4 @@ class GPSReceiver(private val context: Context, private val listener: GPSReceive
         }
     }
 }
+*/

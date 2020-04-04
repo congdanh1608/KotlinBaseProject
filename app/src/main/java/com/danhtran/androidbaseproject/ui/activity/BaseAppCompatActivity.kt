@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.os.PersistableBundle
 import android.text.TextUtils
 import android.view.*
 import android.widget.Toast
@@ -21,6 +22,7 @@ import com.danhtran.androidbaseproject.ui.activity.main.MainActivity
 import com.danhtran.androidbaseproject.ui.activity.tour.TourActivity
 import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
 import com.danhtran.androidbaseproject.utils.UIUtils
+import com.livefront.bridge.Bridge
 import com.orhanobut.logger.Logger
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import java.util.*
@@ -48,7 +50,6 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
         protected set
     private var backButtonCount = 0
 
-    private var progressDialog: Dialog? = null
     protected var setOfDialogs: MutableCollection<Dialog> = LinkedHashSet()
 
     /**
@@ -159,6 +160,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Bridge.restoreInstanceState(this, savedInstanceState)
 
         registerReceiver()
 
@@ -198,6 +200,8 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     }
 
     override fun onDestroy() {
+        Bridge.clear(this)
+
         if (binding != null) {
             UIUtils.removeKeyboardEvents(binding!!.root)
         }
@@ -207,6 +211,11 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
         destroyProgressDialog()
 
         super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState?.let { Bridge.saveInstanceState(this, it) }
     }
 
     override fun onBackPressed() {
@@ -280,10 +289,13 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      * @param isAddBackStack does add this fragment into backstack?
      */
     @JvmOverloads
-    fun setFragment(tag: String, data: Any?, isAddBackStack: Boolean = true) {
+    fun setFragment(tag: String, bundle: Bundle?, isAddBackStack: Boolean = true) {
         val fragmentPopped = myFragmentManager!!.popBackStackImmediate(tag, 0)
         if (!fragmentPopped) {
-            val fragment = getFragment(tag, data)
+            val fragment = getFragment(tag)
+            bundle?.let {
+                fragment?.arguments = bundle
+            }
             if (fragment != null) {
                 val transaction = myFragmentManager!!.beginTransaction()
                 transaction.setCustomAnimations(
@@ -302,7 +314,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     }
 
     //get fragment by tag and data
-    private fun getFragment(tag: String, data: Any?): BaseFragment? {
+    private fun getFragment(tag: String): BaseFragment? {
         /*if (Fragment1.class.getName().equals(tag)) {
             return new Fragment1();
         } */
@@ -317,7 +329,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      * @param isFinish is finish previous activity?
      */
     @JvmOverloads
-    fun startActivity(tag: String, bundle: Bundle?, isFinish: Boolean = true) {
+    fun startActivity(tag: String, bundle: Bundle?, isFinish: Boolean = false) {
         val intent = getIntentActivity(tag)
 
         if (intent != null) {
@@ -417,17 +429,17 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
 
     //region Show Background Progress
     private fun createProgressDialog() {
-        progressDialog = Dialog(this, R.style.DialogFullScreen)
+        val progressDialog = Dialog(this, R.style.DialogFullScreen)
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.process_dialog, null)
         //show view
         val view = dialogView.findViewById<View>(R.id.progressBar)
         view.visibility = View.VISIBLE
 
-        progressDialog!!.setContentView(dialogView)
-        progressDialog!!.setCancelable(false)
+        progressDialog.setContentView(dialogView)
+        progressDialog.setCancelable(false)
 
-        val dialogWindow = progressDialog!!.window
+        val dialogWindow = progressDialog.window
         dialogWindow?.let {
             dialogWindow.setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -436,6 +448,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
             dialogWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         }
+        progressDialog.show()
 
         addDialog(progressDialog)
     }
@@ -452,27 +465,12 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     fun showProgress() {
         //init progress dialog
         createProgressDialog()
-        //show
-        progressDialog?.show()
     }
 
     /**
      * Hide progress layout
      */
     fun hideProgress() {
-        progressDialog?.hide()
         destroyProgressDialog()
     }
 }
-/**
- * set fragment for current activity
- *
- * @param tag  tag name
- * @param data data
- */
-/**
- * start activity and finish current activity
- *
- * @param tag    tag name
- * @param bundle bundle
- */

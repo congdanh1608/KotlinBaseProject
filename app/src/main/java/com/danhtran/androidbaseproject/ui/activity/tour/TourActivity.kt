@@ -92,7 +92,7 @@ class TourActivity : BaseAppCompatActivity(), TourActivityListener {
     override fun launchHomeScreen() {
         presenter!!.saveFlag()
 
-        startActivity(MainActivity::class.java.name, null)
+        startActivityAsRoot(MainActivity::class.java.name, null)
     }
 
     private fun addBottomDots(currentPage: Int) {

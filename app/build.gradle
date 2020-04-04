@@ -4,9 +4,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.apollographql.android'
+apply plugin: 'com.apollographql.apollo'
 
-apply plugin: 'io.fabric'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+// Add the Firebase Crashlytics plugin.
+//apply plugin: 'com.google.firebase.crashlytics'
 
 
 import com.android.build.OutputFile
@@ -160,14 +163,21 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    implementation 'androidx.navigation:navigation-fragment:2.2.1'
+    implementation 'androidx.navigation:navigation-ui:2.2.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'
+    implementation 'androidx.fragment:fragment:1.2.4'
+    implementation 'androidx.fragment:fragment-ktx:1.2.4'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-
     //social authentication
-    implementation project(':social_login')
+//    implementation project(':social_login')
     //glide
     implementation project(':custom_glide')
 
@@ -176,12 +186,13 @@ dependencies {
 
     //google
     implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
 
     //google services
-    implementation "com.google.android.gms:play-services-location:$google_play_service_version"
-    implementation "com.google.firebase:firebase-core:$google_play_service_version"
-    implementation "com.google.firebase:firebase-analytics:$google_play_service_version"
+//    implementation "com.google.android.gms:play-services-location:$google_play_service_version"
+//    implementation "com.google.firebase:firebase-core:$google_play_service_version"
+//    implementation "com.google.firebase:firebase-analytics:$google_play_service_version"
+//    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
 
     //dagger
     implementation "com.google.dagger:dagger:$dagger_version"
@@ -191,7 +202,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
     //rx
-    implementation "io.reactivex.rxjava2:rxjava:2.2.7"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.10"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
     //retrofit
@@ -224,7 +235,6 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:4.0.1"
     implementation "com.squareup.okhttp3:logging-interceptor:4.0.1"
 
-
     //dexter - permission requirement
     implementation "com.karumi:dexter:5.0.0"
 
@@ -249,12 +259,6 @@ dependencies {
     //leak canary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-2'
 
-    //A utility library for Android to save objects in a Bundle without any boilerplate
-    /*implementation('com.evernote:android-state:1.4.1') {
-        exclude group: 'androidx.core'
-    }
-    annotationProcessor 'com.evernote:android-state-processor:1.4.1'*/
-
     //pretty time
     //implementation 'org.ocpsoft.prettytime:prettytime:4.0.2.Final'
 
@@ -262,7 +266,11 @@ dependencies {
     //implementation 'com.github.hkk595:Resizer:v1.5'
 
     //Image picker
-    implementation 'com.github.martin90s:ImagePicker:v1.3.2'
+//    implementation 'com.github.martin90s:ImagePicker:v1.3.2'
+
+    //A library for avoiding TransactionTooLargeException during state saving and restoration. This issue may happen on Android 7
+    implementation 'com.github.livefront:bridge:v1.2.1'
+
 }
 
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'

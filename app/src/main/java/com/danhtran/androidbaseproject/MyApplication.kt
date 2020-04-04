@@ -1,13 +1,22 @@
 package com.danhtran.androidbaseproject
 
+import android.os.Bundle
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.multidex.MultiDexApplication
 import com.danhtran.androidbaseproject.di.component.AppComponent
 import com.danhtran.androidbaseproject.di.component.DaggerAppComponent
 import com.danhtran.androidbaseproject.di.module.AppModule
+import com.livefront.bridge.Bridge
+import com.livefront.bridge.SavedStateHandler
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
+import io.reactivex.exceptions.UndeliverableException
+import io.reactivex.plugins.RxJavaPlugins
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
+import java.io.IOException
+import java.net.SocketException
 
 
 /**
@@ -29,26 +38,23 @@ class MyApplication : MultiDexApplication() {
         initData()
     }
 
+
+    //region init SDK
     private fun initSDK() {
-        //        initHawk();
-        //        initFacebook();
+        initBridge()
+        initHawk()
         initFont()
         initLogger()
-        //        initEvernoteState();
+        initRxJavaErrorHandler()
     }
-
-    /*private void initFacebook() {
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-    }*/
 
     //init fonts for app
     private fun initFont() {
         CalligraphyConfig.initDefault(
-            CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Helvetica.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
+                CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Helvetica.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
         )
     }
 
@@ -60,18 +66,59 @@ class MyApplication : MultiDexApplication() {
         })
     }
 
-    private fun initEvernoteState() {
-        //        StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
-    }
-
     private fun initHawk() {
         Hawk.init(this).build()
     }
 
+    private fun initBridge() {
+        Bridge.initialize(applicationContext, object : SavedStateHandler {
+            override fun saveInstanceState(@NonNull target: Any, @NonNull state: Bundle) {
+                //register other state saving libraries here
+            }
+
+            override fun restoreInstanceState(@NonNull target: Any, @Nullable state: Bundle?) {
+                //register other state saving libraries here
+            }
+        })
+    }
+
+    private fun initRxJavaErrorHandler() {
+        RxJavaPlugins.setErrorHandler { throwable: Throwable ->
+            if (throwable is UndeliverableException) {
+                throwable.cause?.let {
+                    Thread.currentThread().uncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), it)
+                    return@setErrorHandler
+                }
+            }
+            if (throwable is IOException || throwable is SocketException) {
+                // fine, irrelevant network problem or API that throws on cancellation
+                return@setErrorHandler
+            }
+            if (throwable is InterruptedException) {
+                // fine, some blocking code was interrupted by a dispose call
+                return@setErrorHandler
+            }
+            if (throwable is NullPointerException || throwable is IllegalArgumentException) {
+                // that's likely a bug in the application
+                Thread.currentThread().uncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), throwable)
+                return@setErrorHandler
+            }
+            if (throwable is IllegalStateException) {
+                // that's a bug in RxJava or in a custom operator
+                Thread.currentThread().uncaughtExceptionHandler?.uncaughtException(Thread.currentThread(), throwable)
+                return@setErrorHandler
+            }
+            Logger.w("Undeliverable exception received, not sure what to do ${throwable.message}")
+        }
+    }
+    //endregion init SDK
+
+
+    //region init Data
     private fun initData() {
         appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(this))
-            .build()
+                .appModule(AppModule(this))
+                .build()
         appComponent.inject(this)
 
         //language
@@ -85,6 +132,8 @@ class MyApplication : MultiDexApplication() {
         //secret key
         //        Utils.generalSHAKey(this);
     }
+    //endregion init Data
+
 
     companion object {
         private lateinit var myApplication: MyApplication

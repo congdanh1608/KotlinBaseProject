@@ -67,6 +67,7 @@ class MainActivity : BaseAppCompatActivity(), MainActivityListener {
 
     //load deep link data onNewIntent()
     override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
         val action = intent.action
         val data = intent.dataString
         if (Intent.ACTION_VIEW == action && data != null) {
