@@ -50,7 +50,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        //for snacky + image picker
+        //for snacky + image picker + bridge
         maven { url "https://jitpack.io" }
     }
 }

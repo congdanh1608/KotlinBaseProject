@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.os.PersistableBundle
 import android.text.TextUtils
 import android.view.*
 import android.widget.Toast
@@ -21,6 +22,7 @@ import com.danhtran.androidbaseproject.ui.activity.main.MainActivity
 import com.danhtran.androidbaseproject.ui.activity.tour.TourActivity
 import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
 import com.danhtran.androidbaseproject.utils.UIUtils
+import com.livefront.bridge.Bridge
 import com.orhanobut.logger.Logger
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import java.util.*
@@ -158,6 +160,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Bridge.restoreInstanceState(this, savedInstanceState)
 
         registerReceiver()
 
@@ -197,6 +200,8 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     }
 
     override fun onDestroy() {
+        Bridge.clear(this)
+
         if (binding != null) {
             UIUtils.removeKeyboardEvents(binding!!.root)
         }
@@ -206,6 +211,11 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
         destroyProgressDialog()
 
         super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState?.let { Bridge.saveInstanceState(this, it) }
     }
 
     override fun onBackPressed() {

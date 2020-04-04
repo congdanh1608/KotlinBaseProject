@@ -1,9 +1,14 @@
 package com.danhtran.androidbaseproject
 
+import android.os.Bundle
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.multidex.MultiDexApplication
 import com.danhtran.androidbaseproject.di.component.AppComponent
 import com.danhtran.androidbaseproject.di.component.DaggerAppComponent
 import com.danhtran.androidbaseproject.di.module.AppModule
+import com.livefront.bridge.Bridge
+import com.livefront.bridge.SavedStateHandler
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -30,17 +35,11 @@ class MyApplication : MultiDexApplication() {
     }
 
     private fun initSDK() {
-        //        initHawk();
-        //        initFacebook();
+        initBridge()
+        initHawk()
         initFont()
         initLogger()
-        //        initEvernoteState();
     }
-
-    /*private void initFacebook() {
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-    }*/
 
     //init fonts for app
     private fun initFont() {
@@ -60,12 +59,20 @@ class MyApplication : MultiDexApplication() {
         })
     }
 
-    private fun initEvernoteState() {
-        //        StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true);
-    }
-
     private fun initHawk() {
         Hawk.init(this).build()
+    }
+
+    private fun initBridge() {
+        Bridge.initialize(applicationContext, object : SavedStateHandler {
+            override fun saveInstanceState(@NonNull target: Any, @NonNull state: Bundle) {
+                //register other state saving libraries here
+            }
+
+            override fun restoreInstanceState(@NonNull target: Any, @Nullable state: Bundle?) {
+                //register other state saving libraries here
+            }
+        })
     }
 
     private fun initData() {
