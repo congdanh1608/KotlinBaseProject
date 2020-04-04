@@ -177,7 +177,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     //social authentication
-    implementation project(':social_login')
+//    implementation project(':social_login')
     //glide
     implementation project(':custom_glide')
 
