@@ -28,18 +28,14 @@ object UIUtils {
      * @param requestCode    request code for result returned
      */
     fun showDialogFragment(
-        dialogFragment: DialogFragment,
-        parent: Fragment,
-        tag: String,
-        requestCode: Int
+            dialogFragment: DialogFragment,
+            parent: Fragment,
+            tag: String,
+            requestCode: Int
     ) {
-        val fragmentManager: FragmentManager?
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            fragmentManager = parent.fragmentManager
-        else
-            fragmentManager = parent.activity!!.supportFragmentManager
+        val fragmentManager: FragmentManager = parent.parentFragmentManager
         dialogFragment.setTargetFragment(parent, requestCode)
-        dialogFragment.show(fragmentManager!!, tag)
+        dialogFragment.show(fragmentManager, tag)
     }
 
 
