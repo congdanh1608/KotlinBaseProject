@@ -17,13 +17,13 @@ class SecondaryActivity : BaseAppCompatActivity(), SecondaryActivityListener {
 
     override var fragmentTag: String? = null
         private set
-    private var bundle: Any? = null
+    private var bundle: Bundle? = null
 
     override fun loadPassedParamsIfNeeded(extras: Bundle) {
         super.loadPassedParamsIfNeeded(extras)
 
         fragmentTag = extras.getString(KEY_FRAGMENT_TAG)
-        bundle = extras.get(KEY_FRAGMENT_BUNDLE)
+        bundle = extras.get(KEY_FRAGMENT_BUNDLE) as Bundle?
     }
 
     override fun setLayout(): Int {
