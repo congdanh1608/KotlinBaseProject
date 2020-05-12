@@ -5,20 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.activity.viewModels
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.databinding.ActivityFullScreenBinding
+import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 
 /**
  * Created by DanhTran on 8/13/2019.
  */
-class FullScreenActivity : BaseAppCompatActivity(), FullScreenActivityListener {
+class FullScreenActivity : BaseAppCompatActivity() {
 
     private var mBinding: ActivityFullScreenBinding? = null
-    private var presenter: FullScreenActivityPresenter? = null
+    private val fullActivityVM: FullActivityVM by viewModels { FullActivityVMFactory() }
 
-    override var fragmentTag: String? = null
-        private set
+    var fragmentTag: String? = null
     private var bundle: Bundle? = null
 
 
@@ -42,10 +43,18 @@ class FullScreenActivity : BaseAppCompatActivity(), FullScreenActivityListener {
         mBinding = binding as ActivityFullScreenBinding
     }
 
+    override fun initViewModel(): BaseActivityViewModel? {
+        return fullActivityVM
+    }
+
     override fun initData() {
-        presenter = FullScreenActivityPresenter(this, bundle)
-        mBinding!!.presenter = presenter
-        mBinding!!.executePendingBindings()
+        mBinding?.lifecycleOwner = this
+        mBinding?.viewModel = fullActivityVM
+
+        //set fragment
+        fragmentTag?.let {
+            setFragment(it, bundle)
+        }
     }
 
     override fun initListener() {

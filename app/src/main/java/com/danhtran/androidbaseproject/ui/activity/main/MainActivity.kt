@@ -4,15 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.databinding.ActivityMainBinding
 import com.danhtran.androidbaseproject.extras.Constant
+import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
+import com.orhanobut.logger.Logger
 
-class MainActivity : BaseAppCompatActivity(), MainActivityListener {
+class MainActivity : BaseAppCompatActivity() {
     private var mBinding: ActivityMainBinding? = null
-    private var presenter: MainActivityPresenter? = null
+
+    private val mainActivityVM: MainActivityVM by viewModels { MainActivityVMFactory(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,17 +37,23 @@ class MainActivity : BaseAppCompatActivity(), MainActivityListener {
 
     override fun initUI() {
         mBinding = binding as ActivityMainBinding
+    }
 
+    override fun initViewModel(): BaseActivityViewModel? {
+        mainActivityVM.countModel.observe(this, Observer<MainActivityVM.CountModel> { t ->
+            Logger.d(t.count)
+        })
+
+        return mainActivityVM
     }
 
     override fun initData() {
-        presenter = MainActivityPresenter(this)
-        mBinding!!.presenter = presenter
-        mBinding!!.executePendingBindings()
+        mBinding?.lifecycleOwner = this
+        mBinding?.viewModel = mainActivityVM
     }
 
     override fun initListener() {
-        mBinding!!.btn1.setOnClickListener { Log.d("Danh", null) }
+
     }
 
     override fun onBackPressed() {

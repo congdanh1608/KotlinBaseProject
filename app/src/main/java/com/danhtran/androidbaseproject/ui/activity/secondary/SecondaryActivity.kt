@@ -3,20 +3,23 @@ package com.danhtran.androidbaseproject.ui.activity.secondary
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.databinding.ActivitySecondaryBinding
+import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
+
 
 /**
  * Created by DanhTran on 8/13/2019.
  */
-class SecondaryActivity : BaseAppCompatActivity(), SecondaryActivityListener {
+class SecondaryActivity : BaseAppCompatActivity() {
 
     private var mBinding: ActivitySecondaryBinding? = null
-    private var presenter: SecondaryActivityPresenter? = null
+    private lateinit var secondaryActivityVM: SecondaryActivityVM
+    private lateinit var secondaryActivityVMFactory: SecondaryActivityVMFactory
 
-    override var fragmentTag: String? = null
-        private set
+    private var fragmentTag: String? = null
     private var bundle: Bundle? = null
 
     override fun loadPassedParamsIfNeeded(extras: Bundle) {
@@ -34,10 +37,21 @@ class SecondaryActivity : BaseAppCompatActivity(), SecondaryActivityListener {
         mBinding = binding as ActivitySecondaryBinding
     }
 
+    override fun initViewModel(): BaseActivityViewModel? {
+        secondaryActivityVMFactory = SecondaryActivityVMFactory()
+        secondaryActivityVM = ViewModelProvider(this, secondaryActivityVMFactory).get(SecondaryActivityVM::class.java)
+
+        return secondaryActivityVM
+    }
+
     override fun initData() {
-        presenter = SecondaryActivityPresenter(this, bundle)
-        mBinding!!.presenter = presenter
-        mBinding!!.executePendingBindings()
+        mBinding?.lifecycleOwner = this
+        mBinding?.viewModel = secondaryActivityVM
+
+        //set fragment
+        fragmentTag?.let {
+            setFragment(it, bundle)
+        }
     }
 
     override fun initListener() {

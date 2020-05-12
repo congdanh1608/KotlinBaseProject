@@ -2,9 +2,7 @@ package com.danhtran.androidbaseproject.di.component
 
 import com.danhtran.androidbaseproject.MyApplication
 import com.danhtran.androidbaseproject.di.module.*
-import com.danhtran.androidbaseproject.ui.activity.main.MainActivityPresenter
 import com.danhtran.androidbaseproject.ui.activity.splash.SplashActivity
-import com.danhtran.androidbaseproject.ui.activity.tour.TourActivityPresenter
 import dagger.Component
 
 import javax.inject.Singleton
@@ -19,8 +17,6 @@ interface AppComponent {
     fun inject(myApplication: MyApplication)
 
     fun inject(splashActivity: SplashActivity)
-    fun inject(tourActivityPresenter: TourActivityPresenter)
-    fun inject(mainActivityPresenter: MainActivityPresenter)
 
 
     //for subComponent

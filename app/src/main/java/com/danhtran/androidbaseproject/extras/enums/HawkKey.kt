@@ -7,7 +7,7 @@ import com.danhtran.androidbaseproject.utils.EnumUtils
  * Created by danhtran on 09/04/2017.
  */
 
-enum class SharePrefs private constructor(internal val value: String) {
+enum class HawkKey private constructor(internal val value: String) {
     IS_NOT_FIRST_VIEW("is_not_first_view"),
 
     SESSION_LOGIN("SESSION_LOGIN"),
@@ -24,8 +24,8 @@ enum class SharePrefs private constructor(internal val value: String) {
 
         val PREFIX = MyApplication.instance().packageName
 
-        fun fromValue(value: String): SharePrefs? {
-            return EnumUtils.valueOf(SharePrefs::class.java, value)
+        fun fromValue(value: String): HawkKey? {
+            return EnumUtils.valueOf(HawkKey::class.java, value)
         }
     }
 }

@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="presenter"
-            type="com.danhtran.androidbaseproject.ui.activity.full.FullScreenActivityPresenter" />
+            name="viewModel"
+            type="com.danhtran.androidbaseproject.ui.activity.full.FullActivityVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="presenter"
-            type="com.danhtran.androidbaseproject.ui.activity.secondary.SecondaryActivityPresenter" />
+            name="viewModel"
+            type="com.danhtran.androidbaseproject.ui.activity.secondary.SecondaryActivityVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

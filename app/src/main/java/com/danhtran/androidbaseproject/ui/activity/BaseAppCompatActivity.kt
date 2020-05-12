@@ -1,5 +1,6 @@
 package com.danhtran.androidbaseproject.ui.activity
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -9,7 +10,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.PersistableBundle
-import android.text.TextUtils
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.ui.activity.main.MainActivity
 import com.danhtran.androidbaseproject.ui.activity.tour.TourActivity
@@ -31,8 +32,7 @@ import java.util.*
  * Created by danhtran on 2/26/2018.
  */
 
-abstract class BaseAppCompatActivity : AppCompatActivity(),
-    FragmentManager.OnBackStackChangedListener {
+abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
 
     /**
      * get View Data Binding
@@ -41,6 +41,13 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      */
     var binding: ViewDataBinding? = null
         protected set
+
+    /**
+     * get view model
+     */
+    var viewModel: BaseActivityViewModel? = null
+        protected set
+
     /**
      * Get Fragment Manager
      *
@@ -58,9 +65,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      * @return view
      */
     val rootView: View?
-        get() = if (binding != null) {
-            binding!!.root
-        } else null
+        get() = binding?.root
 
     val baseActivity: BaseAppCompatActivity
         get() = this
@@ -72,8 +77,10 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      */
     val previousFragmentName: String?
         get() {
-            val count = myFragmentManager!!.backStackEntryCount
-            return if (count > 1) myFragmentManager!!.getBackStackEntryAt(count - 2).name else null
+            val count = myFragmentManager?.backStackEntryCount ?: 0
+            return if (count > 1) {
+                myFragmentManager?.getBackStackEntryAt(count - 2)?.name
+            } else null
         }
 
     /**
@@ -83,8 +90,10 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      */
     val currentFragmentName: String?
         get() {
-            val count = myFragmentManager!!.backStackEntryCount
-            return if (count > 0) myFragmentManager!!.getBackStackEntryAt(count - 1).name else null
+            val count = myFragmentManager?.backStackEntryCount ?: 0
+            return if (count > 0) {
+                myFragmentManager?.getBackStackEntryAt(count - 1)?.name
+            } else null
         }
 
     /**
@@ -94,10 +103,10 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      */
     val currentFragment: Fragment?
         get() {
-            if (myFragmentManager != null) {
+            myFragmentManager?.let {
                 val fragmentName = currentFragmentName
-                if (!TextUtils.isEmpty(fragmentName))
-                    return myFragmentManager!!.findFragmentByTag(fragmentName)
+                if (!fragmentName.isNullOrEmpty())
+                    return myFragmentManager?.findFragmentByTag(fragmentName)
             }
             return null
         }
@@ -121,7 +130,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     val currentChildFragmentName: String?
         get() {
             val childManager = childManager
-            if (childManager != null) {
+            childManager?.let {
                 val count = childManager.backStackEntryCount
                 if (count > 0) {
                     return childManager.getBackStackEntryAt(count - 1).name
@@ -149,6 +158,11 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     abstract fun initUI()
 
     /**
+     * Init view model
+     */
+    abstract fun initViewModel(): BaseActivityViewModel?
+
+    /**
      * Binding and initialize data into layout
      */
     abstract fun initData()
@@ -158,6 +172,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      */
     abstract fun initListener()
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Bridge.restoreInstanceState(this, savedInstanceState)
@@ -166,6 +181,11 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
 
         //set portrait
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        //check and load intent params
+        intent?.extras?.let {
+            loadPassedParamsIfNeeded(it)
+        }
 
         //binding layout
         val xml = setLayout()
@@ -179,11 +199,17 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
         initFragmentManager()
         initUI()
 
-        //check and load intent params
-        if (intent != null && intent.extras != null) {
-            loadPassedParamsIfNeeded(intent.extras!!)
-        }
+        //progress state
+        viewModel = initViewModel()
+        viewModel?.progressState?.observe(this, Observer {
+            if (it) {
+                showProgress()
+            } else {
+                hideProgress()
+            }
+        })
 
+        //init
         initData()
         initListener()
     }
@@ -202,8 +228,8 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     override fun onDestroy() {
         Bridge.clear(this)
 
-        if (binding != null) {
-            UIUtils.removeKeyboardEvents(binding!!.root)
+        binding?.let {
+            UIUtils.removeKeyboardEvents(it.root)
         }
 
         unRegisterReceiver()
@@ -290,24 +316,24 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      */
     @JvmOverloads
     fun setFragment(tag: String, bundle: Bundle?, isAddBackStack: Boolean = true) {
-        val fragmentPopped = myFragmentManager!!.popBackStackImmediate(tag, 0)
+        val fragmentPopped = myFragmentManager?.popBackStackImmediate(tag, 0) ?: false
         if (!fragmentPopped) {
             val fragment = getFragment(tag)
             bundle?.let {
-                fragment?.arguments = bundle
+                fragment?.arguments = it
             }
             if (fragment != null) {
-                val transaction = myFragmentManager!!.beginTransaction()
-                transaction.setCustomAnimations(
+                val transaction = myFragmentManager?.beginTransaction()
+                transaction?.setCustomAnimations(
                     R.anim.slide_from_right,
                     R.anim.slide_to_left,
                     R.anim.slide_from_left,
                     R.anim.slide_to_right
                 )
-                transaction.replace(R.id.content_fragment, fragment, tag)
+                transaction?.replace(R.id.content_fragment, fragment, tag)
                 if (isAddBackStack)
-                    transaction.addToBackStack(tag)
-                transaction.commit()
+                    transaction?.addToBackStack(tag)
+                transaction?.commit()
             } else
                 Logger.e("Forgot add fragment into base activity!")
         }
@@ -332,8 +358,8 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     fun startActivity(tag: String, bundle: Bundle?, isFinish: Boolean = false) {
         val intent = getIntentActivity(tag)
 
-        if (intent != null) {
-            if (bundle != null) {
+        intent?.let {
+            bundle?.let {
                 intent.putExtras(bundle)
             }
             startActivity(intent)
@@ -352,8 +378,8 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     fun startActivityAsRoot(tag: String, bundle: Bundle?) {
         val intent = getIntentActivity(tag)
 
-        if (intent != null) {
-            if (bundle != null) {
+        intent?.let {
+            bundle?.let {
                 intent.putExtras(bundle)
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -369,8 +395,8 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
     fun startActivityForResult(tag: String, bundle: Bundle?, isFinish: Boolean, requestCode: Int) {
         val intent = getIntentActivity(tag)
 
-        if (intent != null) {
-            if (bundle != null) {
+        intent?.let {
+            bundle?.let {
                 intent.putExtras(bundle)
             }
             startActivityForResult(intent, requestCode)
@@ -388,7 +414,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(),
      */
     private fun getIntentActivity(tag: String): Intent? {
         var intent: Intent? = null
-        if (!TextUtils.isEmpty(tag)) {
+        if (tag.isNotEmpty()) {
             if (tag == MainActivity::class.java.name) {
                 intent = MainActivity.createIntent(this)
             } else if (tag == TourActivity::class.java.name) {
