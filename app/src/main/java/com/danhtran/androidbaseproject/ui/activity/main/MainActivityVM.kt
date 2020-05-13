@@ -3,10 +3,9 @@ package com.danhtran.androidbaseproject.ui.activity.main
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.danhtran.androidbaseproject.MyApplication
-import com.danhtran.androidbaseproject.graphql.services.AuthenticationService
+import com.danhtran.androidbaseproject.serviceAPI.apiservice.MovieService
 import com.danhtran.androidbaseproject.serviceAPI.extras.RxScheduler
 import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
-import com.orhanobut.logger.Logger
 import javax.inject.Inject
 
 /**
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 class MainActivityVM(val context: Context) : BaseActivityViewModel() {
     @Inject
-    lateinit var authorizationService: AuthenticationService
+    lateinit var movieService: MovieService
 
 
     var image =
@@ -27,8 +26,7 @@ class MainActivityVM(val context: Context) : BaseActivityViewModel() {
 
     fun onClick() {
         RxScheduler.onStop(disposable)
-        disposable = authorizationService.getLanguages().subscribe({
-            Logger.d(it.data().toString())
+        disposable = movieService.usersRepositories.subscribe({
         }, {
             showError(it)
         })

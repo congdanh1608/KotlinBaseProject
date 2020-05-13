@@ -24,7 +24,9 @@ enum class SnackBarType private constructor(val value: Int) {
         }
 
         fun fromValue(code: Int): SnackBarType? {
-            return map[code]
+            return if (map[code] != null) {
+                map[code]
+            } else map[0]
         }
     }
 }

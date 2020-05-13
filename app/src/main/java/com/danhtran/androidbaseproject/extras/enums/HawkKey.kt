@@ -1,7 +1,6 @@
 package com.danhtran.androidbaseproject.extras.enums
 
 import com.danhtran.androidbaseproject.MyApplication
-import com.danhtran.androidbaseproject.utils.EnumUtils
 
 /**
  * Created by danhtran on 09/04/2017.
@@ -25,7 +24,13 @@ enum class HawkKey private constructor(internal val value: String) {
         val PREFIX = MyApplication.instance().packageName
 
         fun fromValue(value: String): HawkKey? {
-            return EnumUtils.valueOf(HawkKey::class.java, value)
+            for (hawkKey in values()) {
+                val keyValue = PREFIX + hawkKey.value
+                if (value.equals(keyValue, ignoreCase = true)) {
+                    return hawkKey
+                }
+            }
+            return null
         }
     }
 }

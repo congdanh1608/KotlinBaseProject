@@ -25,10 +25,10 @@ enum class EventBusKey private constructor(val value: String) {
 
     companion object {
 
-        fun fromValue(text: String): EventBusKey? {
-            for (b in EventBusKey.values()) {
-                if (b.value.equals(text, ignoreCase = true)) {
-                    return b
+        fun fromValue(value: String): EventBusKey? {
+            for (eventBusKey in values()) {
+                if (eventBusKey.value.equals(value, ignoreCase = true)) {
+                    return eventBusKey
                 }
             }
             return null

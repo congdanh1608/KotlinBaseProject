@@ -44,19 +44,19 @@ abstract class BaseRecyclerViewViewModel<T>(private val lifecycleOwner: Lifecycl
         swipeRefreshLayout?.setOnRefreshListener(this)
     }
 
-    protected fun showError(throwable: Throwable) {
+    fun showError(throwable: Throwable) {
         errorHandler.postValue(throwable)
     }
 
-    protected fun showProgress() {
+    fun showProgress() {
         progressState.postValue(true)
     }
 
-    protected fun hideProgress() {
+    fun hideProgress() {
         progressState.postValue(false)
     }
 
-    protected fun initData() {
+    open fun initData() {
         //load more
         adapter.loadMoreAction.observe(lifecycleOwner) {
             onLoadMore(it)
@@ -68,7 +68,7 @@ abstract class BaseRecyclerViewViewModel<T>(private val lifecycleOwner: Lifecycl
         loadData()
     }
 
-    protected fun loadData() {}
+    open fun loadData() {}
 
     //use it if don't load data in background.
     protected fun addItemsInHandler(items: List<T>) {
@@ -122,7 +122,7 @@ abstract class BaseRecyclerViewViewModel<T>(private val lifecycleOwner: Lifecycl
         loadData()
     }
 
-    fun onRefreshWithoutIndicator() {
+    open fun onRefreshWithoutIndicator() {
         currentPage = 1
         isLoadMore = false
 

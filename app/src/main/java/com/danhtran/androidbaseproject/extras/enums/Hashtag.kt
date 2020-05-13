@@ -1,8 +1,6 @@
 package com.danhtran.androidbaseproject.extras.enums
 
 
-import com.danhtran.androidbaseproject.utils.EnumUtils
-
 /**
  * Created by danhtran on 09/04/2017.
  */
@@ -18,7 +16,12 @@ class Hashtag {
         companion object {
 
             fun fromValue(value: String): Host? {
-                return EnumUtils.valueOf(Host::class.java, value)
+                for (host in values()) {
+                    if (host.value.equals(value, ignoreCase = true)) {
+                        return host
+                    }
+                }
+                return null
             }
         }
     }
@@ -31,7 +34,12 @@ class Hashtag {
         companion object {
 
             fun fromValue(value: String): Scheme? {
-                return EnumUtils.valueOf(Scheme::class.java, value)
+                for (scheme in values()) {
+                    if (scheme.value.equals(value, ignoreCase = true)) {
+                        return scheme
+                    }
+                }
+                return null
             }
         }
     }
@@ -44,7 +52,12 @@ class Hashtag {
         companion object {
 
             fun fromValue(value: String): Keyword? {
-                return EnumUtils.valueOf(Keyword::class.java, value)
+                for (keyword in values()) {
+                    if (keyword.value.equals(value, ignoreCase = true)) {
+                        return keyword
+                    }
+                }
+                return null
             }
         }
     }
