@@ -31,7 +31,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BindingViewHolder<*
         if (getItemViewType(position) != VIEW_PROG) {
             if (position == itemCount - VISIBLE_THRESHOLD) {
                 if (listener != null && !isMoreLoading) {
-                    listener!!.onLoadMore(position)
+                    listener?.onLoadMore(position)
                 }
             }
         }

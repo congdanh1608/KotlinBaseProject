@@ -89,7 +89,7 @@ class DividerItemDecoration(context: Context, orientation: Int, sizeSpace: Int) 
 
     private fun setVertical(outRect: Rect, parent: RecyclerView, view: View) {
         val pos = parent.getChildLayoutPosition(view)
-        if (pos == (parent.adapter?.itemCount?: 0) - 1) {
+        if (pos == (parent.adapter?.itemCount ?: 0) - 1) {
             outRect.set(0, 0, 0, 0)
         } else {
             outRect.set(0, 0, 0, sizeSpace)
@@ -98,7 +98,7 @@ class DividerItemDecoration(context: Context, orientation: Int, sizeSpace: Int) 
 
     private fun setHorizontal(outRect: Rect, parent: RecyclerView, view: View) {
         val pos = parent.getChildLayoutPosition(view)
-        if (pos == parent.adapter!!.itemCount - 1) {
+        if (pos == (parent.adapter?.itemCount ?: 0) - 1) {
             outRect.set(0, 0, 0, 0)
         } else {
             outRect.set(0, 0, sizeSpace, 0)

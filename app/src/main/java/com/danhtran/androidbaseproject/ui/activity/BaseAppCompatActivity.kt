@@ -200,7 +200,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
         initFragmentManager()
         initUI()
 
-        //progress state
+        //listen live event
         viewModel = initViewModel()
         viewModel?.progressState?.observe(this, Observer {
             if (it) {

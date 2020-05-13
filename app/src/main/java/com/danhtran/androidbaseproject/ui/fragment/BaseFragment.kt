@@ -8,6 +8,10 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import com.danhtran.androidbaseproject.serviceAPI.extras.ErrorHandler
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.danhtran.androidbaseproject.utils.UIUtils
 
@@ -16,15 +20,35 @@ import com.danhtran.androidbaseproject.utils.UIUtils
  */
 abstract class BaseFragment : Fragment() {
 
-    protected lateinit var binding: ViewDataBinding
+    /**
+     * get View Data Binding
+     *
+     * @return ViewDataBinding
+     */
+    protected var binding: ViewDataBinding? = null
+        protected set
+
+    /**
+     * get view model
+     */
+    var viewModel: BaseFragmentViewModel? = null
+        protected set
+
+
+    //nav controller
+    val navController: NavController?
+        get() = view?.let { Navigation.findNavController(it) }
+
+    // set reuse binding
+    var isReUseBinding = false
 
     /**
      * Get root view
      *
      * @return root view
      */
-    val rootView: View
-        get() = binding.root
+    val rootView: View?
+        get() = binding?.root
 
     /**
      * Get base activity if it is exits.
@@ -50,6 +74,11 @@ abstract class BaseFragment : Fragment() {
     abstract fun initUI()
 
     /**
+     * Init view model
+     */
+    abstract fun initViewModel(): BaseFragmentViewModel?
+
+    /**
      * Binding and initialize data into layout
      */
     abstract fun initData()
@@ -69,25 +98,44 @@ abstract class BaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        arguments?.let {
+            loadPassedParamsIfNeeded(it)
+        }
+
+        //clear binding if not re-use
+        if (!isReUseBinding) {
+            binding = null
+        }
         val xml = setLayout()
         if (xml != 0) {
             binding = DataBindingUtil.inflate(inflater, xml, container, false)
 
             initUI()
 
+            //listen live event
+            viewModel = initViewModel()
+            viewModel?.progressState?.observe(this, Observer {
+                if (it) {
+                    showProgress()
+                } else {
+                    hideProgress()
+                }
+            })
+            viewModel?.errorHandler?.observe(this, Observer {
+                it?.let {
+                    ErrorHandler.showError(it, context)
+                }
+            })
+
             //hide keyboard after click outside of edit text
-            rootView.isClickable = true
-            rootView.isFocusableInTouchMode = true
-            baseActivity?.let { UIUtils.addKeyboardEvents(it, binding.root, binding.root) }
+            rootView?.isClickable = true
+            rootView?.isFocusableInTouchMode = true
+            baseActivity?.let { UIUtils.addKeyboardEvents(it, binding?.root, binding?.root) }
 
             //enable options menu
             setHasOptionsMenu(true)
-
-            arguments?.let {
-                loadPassedParamsIfNeeded(arguments!!)
-            }
         }
-        return binding.root
+        return binding?.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -125,7 +173,7 @@ abstract class BaseFragment : Fragment() {
     /**
      * load passed params
      */
-    protected fun loadPassedParamsIfNeeded(extras: Bundle) {
+    protected open fun loadPassedParamsIfNeeded(extras: Bundle) {
 
     }
 
@@ -169,5 +217,14 @@ abstract class BaseFragment : Fragment() {
      */
     fun setTitle(title: Int) {
         baseActivity?.setTitle(title)
+    }
+
+    /**
+     * Set title for appbar
+     *
+     * @param title title
+     */
+    fun setTitle(title: String) {
+        baseActivity?.title = title
     }
 }

@@ -1,18 +1,17 @@
-package com.danhtran.androidbaseproject.ui.activity
+package com.danhtran.androidbaseproject.ui.dialog_fragment
 
 import androidx.lifecycle.ViewModel
 import com.danhtran.androidbaseproject.extras.LiveEvent
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-
 /**
- * Created by DanhTran on 5/31/2019.
+ * Created by DanhTran on 5/13/2020.
  */
-abstract class BaseActivityViewModel : ViewModel() {
-    protected var disposable: Disposable
-    protected var disposable1: Disposable
-    protected var disposable2: Disposable
+abstract class BaseDialogFragmentViewModel : ViewModel() {
+    protected val disposable: Disposable
+    protected val disposable2: Disposable
+    protected val disposable3: Disposable
 
     val progressState = LiveEvent<Boolean>()
     val errorHandler = LiveEvent<Throwable>()
@@ -21,8 +20,8 @@ abstract class BaseActivityViewModel : ViewModel() {
 
     init {
         this.disposable = CompositeDisposable()
-        this.disposable1 = CompositeDisposable()
         this.disposable2 = CompositeDisposable()
+        this.disposable3 = CompositeDisposable()
 
         initInject()
     }
@@ -39,4 +38,3 @@ abstract class BaseActivityViewModel : ViewModel() {
         progressState.postValue(false)
     }
 }
-

@@ -76,7 +76,7 @@ object UIUtils {
             val inputMethodManager =
                 activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             activity.currentFocus?.let {
-                inputMethodManager.hideSoftInputFromWindow(activity.currentFocus!!.windowToken, 0)
+                inputMethodManager.hideSoftInputFromWindow(activity.currentFocus?.windowToken, 0)
             }
         }
     }
@@ -132,16 +132,18 @@ object UIUtils {
      */
     fun clearFocus(editText: EditText, activity: BaseAppCompatActivity) {
         editText.clearFocus()
-        clearFocus(activity, activity.binding!!.root)
+        clearFocus(activity, activity.binding?.root)
     }
 
     @JvmOverloads
-    fun clearFocus(activity: Activity, layout: View, hideKeyboard: Boolean = true) {
-        layout.isFocusable = true
-        layout.isFocusableInTouchMode = true
-        layout.requestFocus()
-        if (hideKeyboard) {
-            hideSoftKeyboard(activity, layout)
+    fun clearFocus(activity: Activity, layout: View?, hideKeyboard: Boolean = true) {
+        layout?.let{
+            layout.isFocusable = true
+            layout.isFocusableInTouchMode = true
+            layout.requestFocus()
+            if (hideKeyboard) {
+                hideSoftKeyboard(activity, layout)
+            }
         }
     }
 
@@ -199,7 +201,7 @@ object UIUtils {
      *
      * @param view view
      */
-    fun removeKeyboardEvents(view: View) {
+    fun removeKeyboardEvents(view: View?) {
         if (view is EditText) {
             view.onFocusChangeListener = null
         }
