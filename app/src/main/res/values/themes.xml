@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App theme -->
+    <style name="App.Theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAppTextBlack">@color/colorTextBlack</item>
+
+        <item name="colorAppWhite">@color/colorWhite</item>
+        <item name="colorAppBlack">@color/colorBlack</item>
+
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <!-- App theme -->
+
+    <!--Alert Dialog-->
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="fontPath">fonts/Roboto-Medium.ttf</item>
+    </style>
+
+    <!--    Drawer navigation-->
+    <style name="Navigation.Theme" parent="App.Theme">
+        <item name="android:textSize">@dimen/textXSmall</item>
+        <item name="android:layout_marginBottom">@dimen/sizex0_5</item>
+    </style>
+</resources>

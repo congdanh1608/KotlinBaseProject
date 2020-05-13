@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorAppPrimary" format="reference" />
+    <attr name="colorAppPrimaryDark" format="reference" />
+
+    <attr name="colorAppTextBlack" format="reference" />
+
+    <attr name="colorAppWhite" format="reference" />
+    <attr name="colorAppBlack" format="reference" />
+</resources>

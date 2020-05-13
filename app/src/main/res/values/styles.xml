@@ -1,52 +1,54 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="App.Theme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.FullScreen" parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="AppTheme.Launcher" parent="AppTheme.FullScreen">
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="android:windowBackground">@drawable/launch_splash_screen</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColorPrimary">@color/colorWhite</item>
-        <item name="android:textColorSecondary">@color/colorWhite</item>
+    <style name="AppTheme.FullScreen" parent="App.Theme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/colorBlack</item>
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar">
+        <!--<item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    </style>
 
-    <style name="DialogFullScreen" parent="Theme.AppCompat.Light.Dialog">
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat">
+        <!--<item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:background">?attr/colorPrimary</item>-->
+    </style>
+
+    <style name="DialogFullScreen" parent="Theme.AppCompat.Dialog">
+        <item name="colorPrimaryDark">?attr/colorAppPrimaryDark</item>
+        <item name="colorAccent">?attr/colorAppWhite</item>
+        <item name="colorPrimary">?attr/colorAppPrimary</item>
         <item name="android:windowIsFloating">false</item>
     </style>
 
-    <!--Alert Dialog-->
-    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColor">@color/colorBlack</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="fontPath">fonts/Helvetica.ttf</item>
-    </style>
-
-    <!--    Drawer navigation-->
-    <style name="NavigationTheme" parent="AppTheme">
-        <item name="android:textSize">@dimen/textXSmall</item>
-        <item name="android:layout_marginBottom">@dimen/sizex0_5</item>
-    </style>
-
-    <!--    Font path-->
+    <!--Font path-->
     <style name="TextAppearance.FontPath" parent="android:TextAppearance">
         <!-- Custom Attr-->
         <item name="fontPath">fonts/Roboto-Medium.ttf</item>
+    </style>
+
+    <!--hamburger icon-->
+    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/colorWhite</item>
     </style>
 </resources>
