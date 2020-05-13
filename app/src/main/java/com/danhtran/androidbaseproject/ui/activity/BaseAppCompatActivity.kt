@@ -19,12 +19,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.danhtran.androidbaseproject.R
+import com.danhtran.androidbaseproject.extras.MyContextWrapper
+import com.danhtran.androidbaseproject.extras.enums.HawkKey
 import com.danhtran.androidbaseproject.serviceAPI.extras.ErrorHandler
 import com.danhtran.androidbaseproject.ui.activity.main.MainActivity
 import com.danhtran.androidbaseproject.ui.activity.tour.TourActivity
 import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
 import com.danhtran.androidbaseproject.utils.UIUtils
 import com.livefront.bridge.Bridge
+import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.Logger
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import java.util.*
@@ -221,8 +224,17 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
     }
 
     override fun attachBaseContext(newBase: Context) {
+        //apply language
+        val lang: Int = Hawk.get(HawkKey.LANGUAGE.value, 0)
+        val language = Locale(
+            if (lang == 1) {
+                Locale.ITALIAN.language
+            } else {
+                Locale.ENGLISH.language
+            }
+        )
         //attach base context for calligraphy font
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(MyContextWrapper.wrap(newBase, language.language)))
     }
 
     override fun onStart() {

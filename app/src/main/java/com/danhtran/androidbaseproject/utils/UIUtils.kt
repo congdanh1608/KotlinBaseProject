@@ -2,7 +2,6 @@ package com.danhtran.androidbaseproject.utils
 
 import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
@@ -28,10 +27,10 @@ object UIUtils {
      * @param requestCode    request code for result returned
      */
     fun showDialogFragment(
-            dialogFragment: DialogFragment,
-            parent: Fragment,
-            tag: String,
-            requestCode: Int
+        dialogFragment: DialogFragment,
+        parent: Fragment,
+        tag: String,
+        requestCode: Int
     ) {
         val fragmentManager: FragmentManager = parent.parentFragmentManager
         dialogFragment.setTargetFragment(parent, requestCode)
@@ -39,6 +38,13 @@ object UIUtils {
     }
 
 
+    /**
+     * Show Dialog fragment
+     *
+     * @param dialogFragment dialog fragment
+     * @param activity        AppCompatActivity
+     * @param tag            tag name of dialog fragment
+     */
     fun showDialogFragment(
         dialogFragment: DialogFragment,
         activity: AppCompatActivity,
@@ -137,7 +143,7 @@ object UIUtils {
 
     @JvmOverloads
     fun clearFocus(activity: Activity, layout: View?, hideKeyboard: Boolean = true) {
-        layout?.let{
+        layout?.let {
             layout.isFocusable = true
             layout.isFocusableInTouchMode = true
             layout.requestFocus()
