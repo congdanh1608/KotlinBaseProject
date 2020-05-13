@@ -1,5 +1,6 @@
 package com.danhtran.androidbaseproject.utils
 
+import android.text.format.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -8,6 +9,8 @@ import java.util.*
  */
 
 object TimeUtils {
+    const val DATE_FORMAT = "dd/MM/yyyy"
+    const val ISO_8601_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 
     /**
      * Get list name of month in the past
@@ -194,5 +197,45 @@ object TimeUtils {
         calendar.set(Calendar.SECOND, 59)
 
         return calendar.time
+    }
+
+    fun getDateTimeFromMilliseconds(milliseconds: Long?): String {
+        if (milliseconds == null) {
+            return ""
+        }
+        val timeStr = DateUtils.getRelativeTimeSpanString(
+            milliseconds
+        )
+
+        return timeStr.toString()
+    }
+
+    fun getDateTimeFromMilliseconds(seconds: Double?): String {
+        return getDateTimeFromMilliseconds(seconds?.toLong())
+    }
+
+    fun getDateId(): String {
+        val cal: Calendar = Calendar.getInstance().clone() as Calendar
+        val format = SimpleDateFormat("MMddyyyy", Locale.getDefault())
+        return format.format(cal.time)
+    }
+
+    fun convertTimeStringToMilliseconds(time: String): Double {
+        val sdf = SimpleDateFormat(ISO_8601_FORMAT, Locale.getDefault())
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+
+        val date = sdf.parse(time)
+        return date.time.toDouble()
+    }
+
+    fun convertServerTimeToLocalTime(time: String?): Date? {
+        if (time.isNullOrEmpty()) {
+            return Date()
+        }
+        val df = SimpleDateFormat(ISO_8601_FORMAT, Locale.ENGLISH)
+        df.timeZone = TimeZone.getTimeZone("UTC")
+        val date = df.parse(time)
+        df.timeZone = TimeZone.getDefault()
+        return date
     }
 }

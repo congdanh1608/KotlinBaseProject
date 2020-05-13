@@ -2,9 +2,12 @@ package com.danhtran.androidbaseproject.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.danhtran.androidbaseproject.extras.listener.SingleResultListener
-
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.File
+import java.net.URLConnection
 
 /**
  * Created by danhtran on 1/4/2019.
@@ -30,7 +33,7 @@ object FileUtils {
         context: Context,
         generalId: String,
         imageFile: File,
-        listener: SingleResultListener<File>
+        listener: FileResultListener
     ) {
         val imageNameWithoutExt = generalId + "_small"
 
@@ -55,5 +58,37 @@ object FileUtils {
                         throwable.printStackTrace();
                     }
                 });*/
+    }
+
+    fun getMimeType(file: File): MediaType? {
+        try {
+            val mimeType = URLConnection.guessContentTypeFromName(file.name)
+            val mediaType: MediaType? = mimeType.toMediaTypeOrNull()
+            if (mediaType != null) return mediaType
+        } catch (ex: Exception) {
+            return "multipart/form-data".toMediaTypeOrNull()
+        }
+        return "multipart/form-data".toMediaTypeOrNull()
+    }
+
+    @SuppressLint("CheckResult")
+    fun compressImage(context: Context, imageFile: File, listener: FileResultListener) {
+       /* Compressor(context)
+            .setMaxHeight(IMAGE_SIZE)
+            .setMaxHeight(IMAGE_SIZE)
+            .setQuality(IMAGE_QUALITY)
+            .compressToFileAsFlowable(imageFile)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                listener.onSuccess(it)
+            }, {
+                listener.onFailure(it)
+            })*/
+    }
+
+    interface FileResultListener {
+        fun onSuccess(file: File)
+        fun onFailure(throwable: Throwable)
     }
 }

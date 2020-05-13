@@ -12,9 +12,11 @@ import com.livefront.bridge.SavedStateHandler
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
+import io.github.inflationx.calligraphy3.CalligraphyConfig
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor
+import io.github.inflationx.viewpump.ViewPump
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import java.io.IOException
 import java.net.SocketException
 
@@ -46,15 +48,22 @@ class MyApplication : MultiDexApplication() {
         initFont()
         initLogger()
         initRxJavaErrorHandler()
+//        initOneSignal()
     }
 
     //init fonts for app
     private fun initFont() {
-        CalligraphyConfig.initDefault(
-                CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Helvetica.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
+        ViewPump.init(
+            ViewPump.builder()
+                .addInterceptor(
+                    CalligraphyInterceptor(
+                        CalligraphyConfig.Builder()
+                            .setDefaultFontPath("fonts/Helvetica.ttf")
+                            .setFontAttrId(R.attr.fontPath)
+                            .build()
+                    )
+                )
+                .build()
         )
     }
 
@@ -111,14 +120,27 @@ class MyApplication : MultiDexApplication() {
             Logger.w("Undeliverable exception received, not sure what to do ${throwable.message}")
         }
     }
+
+    /* private fun initOneSignal(){
+         OneSignal.enableVibrate(true);
+         OneSignal.enableSound(true);
+         OneSignal.setSubscription(true);
+         OneSignal.startInit(this)
+             .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+             .setNotificationOpenedHandler(MyNotificationOpenedHandler())
+             .setNotificationReceivedHandler(MyNotificationReceivedHandler())
+             .unsubscribeWhenNotificationsAreDisabled(true)
+             .init()
+     }*/
+
     //endregion init SDK
 
 
     //region init Data
     private fun initData() {
         appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
+            .appModule(AppModule(this))
+            .build()
         appComponent.inject(this)
 
         //language

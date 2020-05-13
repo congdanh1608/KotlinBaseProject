@@ -29,7 +29,7 @@ import com.danhtran.androidbaseproject.utils.UIUtils
 import com.livefront.bridge.Bridge
 import com.orhanobut.hawk.Hawk
 import com.orhanobut.logger.Logger
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import java.util.*
 
 /**
@@ -234,7 +234,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
             }
         )
         //attach base context for calligraphy font
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(MyContextWrapper.wrap(newBase, language.language)))
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(MyContextWrapper.wrap(newBase, language.language)))
     }
 
     override fun onStart() {

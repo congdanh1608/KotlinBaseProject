@@ -13,11 +13,14 @@ import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.serviceAPI.extras.ErrorHandler
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
+import com.orhanobut.logger.Logger
 
 /**
  * Created by danhtran on 5/29/15.
@@ -221,6 +224,24 @@ abstract class BaseDialogFragment : DialogFragment() {
         } else {
             isDismiss = true       //will dismiss when fragment is visible
         }
+    }
+
+    override fun show(manager: FragmentManager, tag: String?) {
+        try {
+            super.show(manager, tag)
+        } catch (e: IllegalStateException) {
+            Logger.d(e.message)
+        }
+    }
+
+    //need to test
+    override fun show(transaction: FragmentTransaction, tag: String?): Int {
+        try {
+            return super.show(transaction, tag)
+        } catch (e: IllegalStateException) {
+            Logger.d(e.message)
+        }
+        return -1
     }
 
     fun showProgress() {
