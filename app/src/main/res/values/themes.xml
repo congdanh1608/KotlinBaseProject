@@ -6,8 +6,6 @@
 
         <item name="colorAppWhite">@color/colorWhite</item>
         <item name="colorAppBlack">@color/colorBlack</item>
-
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
     <!-- App theme -->

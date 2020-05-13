@@ -62,7 +62,7 @@ class MainActivity : BaseAppCompatActivity() {
     override fun initUI() {
         mBinding = binding as ActivityMainBinding
 
-//        initNavDrawerMenu()
+        initNavDrawerMenu()
     }
 
     override fun initViewModel(): BaseActivityViewModel? {
@@ -98,7 +98,11 @@ class MainActivity : BaseAppCompatActivity() {
     }
 
     //region Navigation drawer menu
-    /*private fun initNavDrawerMenu() {
+    private fun initNavDrawerMenu() {
+        setSupportActionBar(mBinding.appBarMain.toolbar)
+        //hide default toolbar title
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
         drawerLayout = mBinding.drawerLayout
 
         //Left drawer menu
@@ -133,9 +137,9 @@ class MainActivity : BaseAppCompatActivity() {
             if (!handled) {
                 // handle other navigation other than default
                 when (it.itemId) {
-                    *//*R.id.nav_feedback -> {
+                    /*R.id.nav_feedback -> {
 
-                    }*//*
+                    }*/
                 }
             }
 
@@ -143,19 +147,18 @@ class MainActivity : BaseAppCompatActivity() {
 
             return@OnNavigationItemSelectedListener handled
         })
-    }*/
+    }
 
     override fun onSupportNavigateUp(): Boolean {
-        /*val navController = findNavController(R.id.nav_host_fragment)
-        return navController.navigateUp(appBarConfiguration) ||*/
-        return super.onSupportNavigateUp()
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun closeNavLeftView(): Boolean {
-        /* if (drawerLayout.isDrawerOpen(navView)) {
-             drawerLayout.closeDrawer(navView)
-             return true
-         }*/
+        if (drawerLayout.isDrawerOpen(navView)) {
+            drawerLayout.closeDrawer(navView)
+            return true
+        }
         return false
     }
     //endregion Navigation drawer menu

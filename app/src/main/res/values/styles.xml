@@ -6,6 +6,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorAppPrimary">@color/colorPrimary</item>
+        <item name="colorAppPrimaryDark">@color/colorPrimaryDark</item>
+
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
     <style name="AppTheme.Launcher" parent="AppTheme.FullScreen">
