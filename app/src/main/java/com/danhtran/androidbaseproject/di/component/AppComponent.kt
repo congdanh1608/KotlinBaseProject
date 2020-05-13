@@ -2,6 +2,7 @@ package com.danhtran.androidbaseproject.di.component
 
 import com.danhtran.androidbaseproject.MyApplication
 import com.danhtran.androidbaseproject.di.module.*
+import com.danhtran.androidbaseproject.ui.activity.main.MainActivityVM
 import com.danhtran.androidbaseproject.ui.activity.splash.SplashActivity
 import dagger.Component
 
@@ -17,6 +18,7 @@ interface AppComponent {
     fun inject(myApplication: MyApplication)
 
     fun inject(splashActivity: SplashActivity)
+    fun inject(mainActivityVM: MainActivityVM)
 
 
     //for subComponent

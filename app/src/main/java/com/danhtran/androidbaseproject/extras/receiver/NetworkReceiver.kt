@@ -33,7 +33,7 @@ class NetworkReceiver(private val context: Context) : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (!isInitialStickyBroadcast && CONNECTIVITY_ACTION == intent.action) {
-            val isAvailable = NetworkUtils.isNetworkAvailable(context)
+            val isAvailable = NetworkUtils.isInternetAvailable(context)
             if (isAvailable) {
                 EventBus.getDefault().post(EventBusKey.NETWORK_IS_AVAILABLE.value)
             } else {

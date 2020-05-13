@@ -152,7 +152,7 @@ object UIUtils {
      * @param rootLayout root layout
      * @param view       view
      */
-    fun addKeyboardEvents(activity: BaseAppCompatActivity, rootLayout: View, view: View) {
+    fun addKeyboardEvents(activity: BaseAppCompatActivity, rootLayout: View?, view: View?) {
 
         if (view is EditText) {
             view.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
@@ -174,7 +174,7 @@ object UIUtils {
     }
 
     //check is any other edit text has focus?
-    private fun isAnyOtherEditTextHasFocus(view: View, editText: EditText): Boolean {
+    private fun isAnyOtherEditTextHasFocus(view: View?, editText: EditText): Boolean {
 
         var result = false
         if (view !== editText && view is EditText && view.hasFocus()) {

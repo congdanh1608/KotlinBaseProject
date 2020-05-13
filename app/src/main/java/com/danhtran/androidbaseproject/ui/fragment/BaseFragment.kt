@@ -168,6 +168,6 @@ abstract class BaseFragment : Fragment() {
      * @param title title
      */
     fun setTitle(title: Int) {
-        baseActivity!!.setTitle(title)
+        baseActivity?.setTitle(title)
     }
 }

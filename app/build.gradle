@@ -94,23 +94,23 @@ android {
     }
     productFlavors {
         develop {
-            buildConfigField("String", "serverUrl", "\"http://157.230.113.97:3000/graphql\"")
-            resValue 'string', 'domainAPI', 'https://animeloversapp.com:3000/api/'
-            resValue 'string', 'facebookAppId', '641215556070654'
+            buildConfigField("String", "graphQLServer", "\"http://157.230.113.97:3000/graphql\"")
+            buildConfigField("String", "APIServer", "\"https://payninja-staging-api.azurewebsites.net/api/\"")
+            buildConfigField("String", "StorageServer", "\"\"")
 
             flavorDimensions "default"
         }
         staging {
-            buildConfigField("String", "serverUrl", "\"http://157.230.113.97:3000/graphql\"")
-            resValue 'string', 'domainAPI', 'https://animeloversapp.com:3000/api/'
-            resValue 'string', 'facebookAppId', '641215556070654'
+            buildConfigField("String", "graphQLServer", "\"\"")
+            buildConfigField("String", "APIServer", "\"\"")
+            buildConfigField("String", "StorageServer", "\"\"")
 
             flavorDimensions "default"
         }
         production {
-            buildConfigField("String", "serverUrl", "\"http://157.230.113.97:3000/graphql\"")
-            resValue 'string', 'domainAPI', 'https://animeloversapp.com:3000/api/'
-            resValue 'string', 'facebookAppId', '641215556070654'
+            buildConfigField("String", "graphQLServer", "\"\"")
+            buildConfigField("String", "APIServer", "\"\"")
+            buildConfigField("String", "StorageServer", "\"\"")
 
             flavorDimensions "default"
         }

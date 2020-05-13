@@ -15,6 +15,7 @@ abstract class BaseActivityViewModel : ViewModel() {
     protected var disposable2: Disposable
 
     val progressState = LiveEvent<Boolean>()
+    val errorHandler = LiveEvent<Throwable>()
 
     abstract fun initInject()
 
@@ -24,6 +25,10 @@ abstract class BaseActivityViewModel : ViewModel() {
         this.disposable2 = CompositeDisposable()
 
         initInject()
+    }
+
+    protected fun showError(throwable: Throwable){
+        errorHandler.postValue(throwable)
     }
 
     protected fun showProgress() {

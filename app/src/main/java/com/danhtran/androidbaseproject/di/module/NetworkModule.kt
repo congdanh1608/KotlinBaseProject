@@ -3,7 +3,6 @@ package com.danhtran.androidbaseproject.di.module
 import android.content.Context
 import com.danhtran.androidbaseproject.BuildConfig
 import com.danhtran.androidbaseproject.MyApplication
-import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.extras.enums.Header
 import com.danhtran.androidbaseproject.serviceAPI.apiconfig.APIServer
 import com.google.gson.GsonBuilder
@@ -12,16 +11,18 @@ import com.halcyon.logger.ILogger
 import com.orhanobut.logger.Logger
 import dagger.Module
 import dagger.Provides
-import okhttp3.*
+import okhttp3.Cache
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-
-import javax.inject.Named
-import javax.inject.Singleton
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
+import javax.inject.Singleton
 
 /**
  * Created by danhtran on 2/27/2018.
@@ -49,7 +50,7 @@ class NetworkModule {
     @Provides
     fun getRetrofitNonCached(@Named("non_cached") okHttpClient: OkHttpClient, context: Context): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(context.getString(R.string.domainAPI))
+            .baseUrl(BuildConfig.APIServer)
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())          //for null key in response
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -62,7 +63,7 @@ class NetworkModule {
     @Provides
     fun getRetrofitWithCached(@Named("cached") okHttpClient: OkHttpClient, context: Context): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(context.getString(R.string.domainAPI))
+            .baseUrl(BuildConfig.APIServer)
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())          //for null key in response
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -78,7 +79,7 @@ class NetworkModule {
             .setLenient()
             .disableHtmlEscaping().create()
         return Retrofit.Builder()
-            .baseUrl(context.getString(R.string.domainAPI))
+            .baseUrl(BuildConfig.APIServer)
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())          //for null key in response
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -89,23 +90,31 @@ class NetworkModule {
     @Singleton
     @Named("non_cached")
     @Provides
-    fun getOkHttpClient(interceptor: HttpLogInterceptor): OkHttpClient {
+    fun getOkHttpClient(httpLogInterceptor: HttpLogInterceptor): OkHttpClient {
+        val interceptor: Interceptor = object : Interceptor {
+            override fun intercept(chain: Interceptor.Chain): Response {
+                try {
+                    if (MyApplication.instance().token != null) {
+                        val newRequest = chain.request().newBuilder()
+                            .addHeader(
+                                Header.HeaderValue.AUTHORIZATION.toString(),
+                                Header.TypeHeader.BEARER.value + MyApplication.instance().token
+                            )
+                            .build()
+                        return chain.proceed(newRequest)
+                    }
+                } catch (ex: Exception) {
+                    throw ex
+                }
+                return chain.proceed(chain.request())
+            }
+        }
+
         return OkHttpClient.Builder()
-            .addInterceptor(interceptor)
+            .addInterceptor(httpLogInterceptor)
             .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .addInterceptor(object : Interceptor {
-                @Throws(IOException::class)
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    val newRequest = chain.request().newBuilder()
-                        .addHeader(
-                            Header.HeaderValue.AUTHORIZATION.toString(),
-                            Header.TypeHeader.BEARER.toString() + MyApplication.instance().token!!
-                        )
-                        .build()
-                    return chain.proceed(newRequest)
-                }
-            })
+            .addInterceptor(interceptor)
             .build()
     }
 
@@ -113,23 +122,31 @@ class NetworkModule {
     @Named("cached")
     @Singleton
     internal fun provideOkHttpClient(cache: Cache, httpLogInterceptor: HttpLogInterceptor): OkHttpClient {
+        val interceptor: Interceptor = object : Interceptor {
+            override fun intercept(chain: Interceptor.Chain): Response {
+                try {
+                    if (MyApplication.instance().token != null) {
+                        val newRequest = chain.request().newBuilder()
+                            .addHeader(
+                                Header.HeaderValue.AUTHORIZATION.toString(),
+                                Header.TypeHeader.BEARER.value + MyApplication.instance().token
+                            )
+                            .build()
+                        return chain.proceed(newRequest)
+                    }
+                } catch (ex: Exception) {
+                    throw ex
+                }
+                return chain.proceed(chain.request())
+            }
+        }
+
         return OkHttpClient.Builder()
             .cache(cache)
             .addInterceptor(httpLogInterceptor)
             .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .addInterceptor(object : Interceptor {
-                @Throws(IOException::class)
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    val newRequest = chain.request().newBuilder()
-                        .addHeader(
-                            Header.HeaderValue.AUTHORIZATION.toString(),
-                            Header.TypeHeader.BEARER.toString() + MyApplication.instance().token!!
-                        )
-                        .build()
-                    return chain.proceed(newRequest)
-                }
-            })
+            .addInterceptor(interceptor)
             .build()
     }
 

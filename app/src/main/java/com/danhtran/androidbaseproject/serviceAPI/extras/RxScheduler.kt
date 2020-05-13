@@ -31,7 +31,10 @@ object RxScheduler {
         return ObservableTransformer { observable ->
             observable
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())/*.retryWhen(new Function<Observable<Throwable>, ObservableSource<?>>() {
+                .observeOn(AndroidSchedulers.mainThread())
+                .retry(3)       //retry 3 times
+
+            /*.retryWhen(new Function<Observable<Throwable>, ObservableSource<?>>() {
                             @Override
                             public ObservableSource<?> apply(Observable<Throwable> throwableObservable) {
                                 return throwableObservable.flatMap(new Function<Throwable, ObservableSource<?>>() {

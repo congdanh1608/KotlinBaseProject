@@ -29,7 +29,7 @@ class TourActivity : BaseAppCompatActivity() {
         intArrayOf(R.layout.item_tour_slider_1, R.layout.item_tour_slider_2, R.layout.item_tour_slider_3)
 
     //  viewpager change listener
-    internal var viewPagerPageChangeListener: ViewPager.OnPageChangeListener = object : ViewPager.OnPageChangeListener {
+    private var viewPagerPageChangeListener: ViewPager.OnPageChangeListener = object : ViewPager.OnPageChangeListener {
 
         override fun onPageSelected(position: Int) {
             addBottomDots(position)
@@ -96,7 +96,7 @@ class TourActivity : BaseAppCompatActivity() {
         val current = getItem(+1)
         if (current < layouts.size) {
             // move to next screen
-            mBinding!!.viewPager.currentItem = current
+            mBinding?.viewPager?.currentItem = current
         } else {
             launchHomeScreen()
         }
@@ -111,16 +111,16 @@ class TourActivity : BaseAppCompatActivity() {
     private fun addBottomDots(currentPage: Int) {
         when (currentPage) {
             0 //left
-            -> mBinding!!.layoutSlide.gravity = Gravity.START
+            -> mBinding?.layoutSlide?.gravity = Gravity.START
             1 //center
-            -> mBinding!!.layoutSlide.gravity = Gravity.CENTER
+            -> mBinding?.layoutSlide?.gravity = Gravity.CENTER
             2 //right
-            -> mBinding!!.layoutSlide.gravity = Gravity.END
+            -> mBinding?.layoutSlide?.gravity = Gravity.END
         }
     }
 
     private fun getItem(i: Int): Int {
-        return mBinding!!.viewPager.currentItem + i
+        return (mBinding?.viewPager?.currentItem ?: 0) + i
     }
 
     private fun saveFlag() {

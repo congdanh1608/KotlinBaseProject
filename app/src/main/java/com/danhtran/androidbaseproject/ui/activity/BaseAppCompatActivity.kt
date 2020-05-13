@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.danhtran.androidbaseproject.R
+import com.danhtran.androidbaseproject.serviceAPI.extras.ErrorHandler
 import com.danhtran.androidbaseproject.ui.activity.main.MainActivity
 import com.danhtran.androidbaseproject.ui.activity.tour.TourActivity
 import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
@@ -192,7 +193,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
         if (xml != 0 && binding == null) {
             binding = DataBindingUtil.setContentView(this, xml)
             //hide keyboard
-            UIUtils.addKeyboardEvents(this, binding!!.root, binding!!.root)
+            UIUtils.addKeyboardEvents(this, binding?.root, binding?.root)
         }
 
         //init
@@ -206,6 +207,11 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
                 showProgress()
             } else {
                 hideProgress()
+            }
+        })
+        viewModel?.errorHandler?.observe(this, Observer {
+            it?.let {
+                ErrorHandler.showError(it, this)
             }
         })
 
@@ -292,7 +298,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
     //init fragment manager
     private fun initFragmentManager() {
         myFragmentManager = supportFragmentManager
-        myFragmentManager!!.addOnBackStackChangedListener(this)
+        myFragmentManager?.addOnBackStackChangedListener(this)
     }
 
     //call on root activity

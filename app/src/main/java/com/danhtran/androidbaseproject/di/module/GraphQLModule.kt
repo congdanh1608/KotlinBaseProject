@@ -30,7 +30,7 @@ class GraphQLModule {
         cacheKeyResolver: CacheKeyResolver
     ): ApolloClient {
         return ApolloClient.builder()
-            .serverUrl(BuildConfig.serverUrl)
+            .serverUrl(BuildConfig.graphQLServer)
             .okHttpClient(okHttpClient)
             .normalizedCache(lruNormalizedCacheFactory, cacheKeyResolver)
             //.subscriptionTransportFactory(WebSocketSubscriptionTransport.Factory(SUBSCRIPTION_BASE_URL, okHttpClient))

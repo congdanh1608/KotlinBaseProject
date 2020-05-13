@@ -59,7 +59,7 @@ class SecondaryActivity : BaseAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val count = myFragmentManager!!.backStackEntryCount
+        val count = myFragmentManager?.backStackEntryCount ?: 0
         if (count <= 1) {
             finish()
         } else {

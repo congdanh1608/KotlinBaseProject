@@ -1,9 +1,8 @@
 package com.danhtran.androidbaseproject.serviceAPI.apiconfig
 
-import com.danhtran.androidbaseproject.appmodel.Movie
 import com.danhtran.androidbaseproject.serviceAPI.model.ResponseModel
 import io.reactivex.Observable
-import retrofit2.http.POST
+import retrofit2.http.GET
 
 /**
  * Created by danhtran on 11/04/2017.
@@ -28,6 +27,6 @@ interface APIServer {
     Observable<LoginModel> put(@Path("api") String api, @Path("sub") String sub, @Body JsonElement jsonData);*/
 
 
-    @get:POST("{api}/{sub}")
-    val movies: Observable<ResponseModel<List<Movie>>>
+    @GET("v2/skills")
+    fun getSkillTags(): Observable<ResponseModel<String>>
 }

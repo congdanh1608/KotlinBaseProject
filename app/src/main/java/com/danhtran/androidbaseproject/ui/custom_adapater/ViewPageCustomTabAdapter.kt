@@ -71,9 +71,9 @@ class ViewPageCustomTabAdapter(manager: FragmentManager, private val context: Co
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         if (position >= count) {
             val manager = (`object` as Fragment).fragmentManager
-            val trans = manager!!.beginTransaction()
-            trans.remove(`object`)
-            trans.commitNow()
+            val trans = manager?.beginTransaction()
+            trans?.remove(`object`)
+            trans?.commitNow()
         }
     }
 

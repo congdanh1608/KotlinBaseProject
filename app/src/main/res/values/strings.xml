@@ -22,6 +22,9 @@
     <string name="permission_location_not_now">Not now</string>
 
     <string name="notify_network_error">The internet connection appears to be offline.</string>
+    <string name="notify_response_error">Couldn\'t map the response data to model!</string>
+    <string name="notify_connect_error">Couldn\'t connect to server!</string>
     <string name="notify_could_not_resolve_host">Couldn\'t resolve host!</string>
-    <string name="notify_unknown_error">Unknown error.</string>
+    <string name="notify_connect_timeout">Connection server timed out!</string>
+    <string name="notify_unknown_error">Unknown error!</string>
 </resources>

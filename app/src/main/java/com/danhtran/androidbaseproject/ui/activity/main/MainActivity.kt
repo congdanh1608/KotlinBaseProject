@@ -5,13 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.databinding.ActivityMainBinding
 import com.danhtran.androidbaseproject.extras.Constant
 import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
-import com.orhanobut.logger.Logger
 
 class MainActivity : BaseAppCompatActivity() {
     private var mBinding: ActivityMainBinding? = null
@@ -40,10 +38,6 @@ class MainActivity : BaseAppCompatActivity() {
     }
 
     override fun initViewModel(): BaseActivityViewModel? {
-        mainActivityVM.countModel.observe(this, Observer<MainActivityVM.CountModel> { t ->
-            Logger.d(t.count)
-        })
-
         return mainActivityVM
     }
 
@@ -57,7 +51,7 @@ class MainActivity : BaseAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val count = myFragmentManager!!.backStackEntryCount
+        val count = myFragmentManager?.backStackEntryCount ?: 0
         if (count <= 1) {
             exitApp()
         } else {
