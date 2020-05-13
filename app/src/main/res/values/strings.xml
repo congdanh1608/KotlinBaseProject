@@ -27,4 +27,8 @@
     <string name="notify_could_not_resolve_host">Couldn\'t resolve host!</string>
     <string name="notify_connect_timeout">Connection server timed out!</string>
     <string name="notify_unknown_error">Unknown error!</string>
+
+
+    <string name="nav_menu_home">Home</string>
+    <string name="nav_menu_setting">Setting</string>
 </resources>

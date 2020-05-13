@@ -7,6 +7,7 @@ import androidx.multidex.MultiDexApplication
 import com.danhtran.androidbaseproject.di.component.AppComponent
 import com.danhtran.androidbaseproject.di.component.DaggerAppComponent
 import com.danhtran.androidbaseproject.di.module.AppModule
+import com.danhtran.androidbaseproject.utils.UIUtils
 import com.livefront.bridge.Bridge
 import com.livefront.bridge.SavedStateHandler
 import com.orhanobut.hawk.Hawk
@@ -38,6 +39,9 @@ class MyApplication : MultiDexApplication() {
         super.onCreate()
         initSDK()
         initData()
+
+        //set theme
+        UIUtils.setAppTheme()
     }
 
 
@@ -58,7 +62,7 @@ class MyApplication : MultiDexApplication() {
                 .addInterceptor(
                     CalligraphyInterceptor(
                         CalligraphyConfig.Builder()
-                            .setDefaultFontPath("fonts/Helvetica.ttf")
+                            .setDefaultFontPath("fonts/Roboto-Regular.ttf")
                             .setFontAttrId(R.attr.fontPath)
                             .build()
                     )

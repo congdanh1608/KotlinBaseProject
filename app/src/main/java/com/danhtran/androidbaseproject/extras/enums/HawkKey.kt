@@ -12,7 +12,7 @@ enum class HawkKey private constructor(internal val value: String) {
     SESSION_LOGIN("SESSION_LOGIN"),
     TOKEN_FIREBASE("TOKEN_FIREBASE"),
     PUSH_ID_FIREBASE("PUSH_ID_FIREBASE"),
-    OFF_NOTIFY("OFF_NOTIFY"),
+    SETTING_APP_THEME("SETTING_APP_THEME"),
     LANGUAGE("LANGUAGE");
 
     fun getValue(): String {

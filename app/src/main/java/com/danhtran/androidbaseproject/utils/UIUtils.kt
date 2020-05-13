@@ -2,16 +2,24 @@ package com.danhtran.androidbaseproject.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Handler
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.danhtran.androidbaseproject.extras.enums.AppTheme
+import com.danhtran.androidbaseproject.extras.enums.HawkKey
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
+import com.orhanobut.hawk.Hawk
+import com.orhanobut.logger.Logger
 
 /**
  * Created by danhtran on 04/06/2017.
@@ -217,6 +225,81 @@ object UIUtils {
             for (idx in 0 until view.childCount) {
                 val child = view.getChildAt(idx)
                 removeKeyboardEvents(child)
+            }
+        }
+    }
+
+    fun setAppTheme() {
+        val appThem = Hawk.get<AppTheme>(HawkKey.SETTING_APP_THEME.value, AppTheme.LIGHT)
+        appThem?.let {
+            when (appThem) {
+                AppTheme.DARK -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+                AppTheme.LIGHT -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+        }
+    }
+
+    fun restartActivity(activity: BaseAppCompatActivity?) {
+        activity?.let {
+            val intent = activity.intent
+            activity.overridePendingTransition(0, 0)
+            intent?.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            activity.finish()
+            //restart the activity without animation
+            activity.overridePendingTransition(0, 0)
+            activity.startActivity(intent)
+        }
+    }
+
+    fun getColor(attrColor: Int, context: Context?): Int? {
+        context?.let {
+            val value = TypedValue()
+            context.theme.resolveAttribute(attrColor, value, true)
+            return value.data
+        }
+        return null
+    }
+
+    fun showToast(context: Context?, content: Int) {
+        try {
+            Toast.makeText(context, content, Toast.LENGTH_SHORT).show()
+        } catch (ex: Exception) {
+            ex.message?.let {
+                Logger.e(ex.message!!)
+            }
+        }
+    }
+
+    fun showLongToast(context: Context?, content: Int) {
+        try {
+            Toast.makeText(context, content, Toast.LENGTH_LONG).show()
+        } catch (ex: Exception) {
+            ex.message?.let {
+                Logger.e(ex.message!!)
+            }
+        }
+    }
+
+    fun showToast(context: Context?, content: String) {
+        try {
+            Toast.makeText(context, content, Toast.LENGTH_SHORT).show()
+        } catch (ex: Exception) {
+            ex.message?.let {
+                Logger.e(ex.message!!)
+            }
+        }
+    }
+
+    fun showLongToast(context: Context?, content: String) {
+        try {
+            Toast.makeText(context, content, Toast.LENGTH_LONG).show()
+        } catch (ex: Exception) {
+            ex.message?.let {
+                Logger.e(ex.message!!)
             }
         }
     }
