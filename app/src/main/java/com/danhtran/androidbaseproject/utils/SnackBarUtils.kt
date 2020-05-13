@@ -183,8 +183,10 @@ object SnackBarUtils {
      * @param context context
      * @param message message text
      */
-    fun showGeneralError(context: Context, message: String) {
-        showSnackBar(context as Activity, message, R.color.colorWhite, true, SnackBarType.ERROR)
+    fun showGeneralError(context: Context?, message: String) {
+        context?.let {
+            showSnackBar(context as Activity, message, R.color.colorWhite, true, SnackBarType.ERROR)
+        }
     }
 
     /**
@@ -193,8 +195,16 @@ object SnackBarUtils {
      * @param context context
      * @param message message text
      */
-    fun showGeneralNotify(context: Context, message: String) {
-        showSnackBar(context as Activity, message, R.color.colorWhite, true, SnackBarType.INFO)
+    fun showGeneralNotify(context: Context?, message: String) {
+        context?.let {
+            showSnackBar(context as Activity, message, R.color.colorWhite, true, SnackBarType.INFO)
+        }
+    }
+
+    fun showGeneralNotify(context: Context?, message: Int) {
+        context?.let {
+            showSnackBar(context as Activity, message, R.color.colorWhite, true, SnackBarType.INFO)
+        }
     }
 
     //set template for snackbar

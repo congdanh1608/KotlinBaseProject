@@ -9,12 +9,15 @@ import com.apollographql.apollo.cache.normalized.CacheKeyResolver
 import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
 import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
 import com.danhtran.androidbaseproject.BuildConfig
+import com.danhtran.androidbaseproject.MyApplication
 import com.danhtran.androidbaseproject.extras.Constant
+import com.danhtran.androidbaseproject.extras.enums.Header
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
@@ -32,7 +35,7 @@ class GraphQLModule {
         return ApolloClient.builder()
             .serverUrl(BuildConfig.graphQLServer)
             .okHttpClient(okHttpClient)
-            .normalizedCache(lruNormalizedCacheFactory, cacheKeyResolver)
+            //.normalizedCache(lruNormalizedCacheFactory, cacheKeyResolver)     //disable cache
             //.subscriptionTransportFactory(WebSocketSubscriptionTransport.Factory(SUBSCRIPTION_BASE_URL, okHttpClient))
             .build()
     }
@@ -41,17 +44,25 @@ class GraphQLModule {
     @Singleton
     fun provOkHttpClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        interceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
-        val authHeader = "Bearer \$accessTokenId"
-        return OkHttpClient.Builder()
+        val builder = OkHttpClient.Builder()
+            .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT.toLong(), TimeUnit.SECONDS)
             .addInterceptor(interceptor)
-            .addInterceptor { chain ->
+
+        if (MyApplication.instance().token != null) {
+            val authHeader = "${Header.TypeHeader.BEARER.value} ${MyApplication.instance().token}"
+            builder.addInterceptor { chain ->
                 val original = chain.request()
                 val builder = original.newBuilder().method(original.method, original.body)
-                builder.header("Authorization", authHeader)
+                builder.header(Header.HeaderValue.AUTHORIZATION.value, authHeader)
                 chain.proceed(builder.build())
-            }.build()
+            }
+        }
+
+
+        return builder.build()
     }
 
     @Provides
@@ -99,4 +110,10 @@ class GraphQLModule {
             }
         }
     }
+
+    companion object {
+        private val REQUEST_TIMEOUT = 60
+        private val READ_TIMEOUT = 60
+    }
+
 }

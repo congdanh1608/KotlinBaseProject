@@ -97,7 +97,7 @@ class NetworkModule {
                     if (MyApplication.instance().token != null) {
                         val newRequest = chain.request().newBuilder()
                             .addHeader(
-                                Header.HeaderValue.AUTHORIZATION.toString(),
+                                Header.HeaderValue.AUTHORIZATION.value,
                                 Header.TypeHeader.BEARER.value + MyApplication.instance().token
                             )
                             .build()
@@ -128,7 +128,7 @@ class NetworkModule {
                     if (MyApplication.instance().token != null) {
                         val newRequest = chain.request().newBuilder()
                             .addHeader(
-                                Header.HeaderValue.AUTHORIZATION.toString(),
+                                Header.HeaderValue.AUTHORIZATION.value,
                                 Header.TypeHeader.BEARER.value + MyApplication.instance().token
                             )
                             .build()
