@@ -1,4 +1,4 @@
-package com.danhtran.androidbaseproject.serviceAPI.extras
+package com.danhtran.androidbaseproject.services.extras
 
 import com.google.gson.*
 import org.json.JSONArray

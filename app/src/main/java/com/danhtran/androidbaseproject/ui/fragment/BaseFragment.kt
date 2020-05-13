@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.danhtran.androidbaseproject.serviceAPI.extras.ErrorHandler
+import com.danhtran.androidbaseproject.services.extras.ErrorHandler
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.danhtran.androidbaseproject.utils.UIUtils
 

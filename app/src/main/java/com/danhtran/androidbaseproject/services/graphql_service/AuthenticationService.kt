@@ -1,11 +1,11 @@
-package com.danhtran.androidbaseproject.graphql.services
+package com.danhtran.androidbaseproject.services.graphql_service
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.rx2.Rx2Apollo
 import com.danhtran.androidbaseproject.LanguagesQuery
 import com.danhtran.androidbaseproject.SignInMutation
-import com.danhtran.androidbaseproject.serviceAPI.extras.RxScheduler
+import com.danhtran.androidbaseproject.services.extras.RxScheduler
 import io.reactivex.Observable
 
 /**

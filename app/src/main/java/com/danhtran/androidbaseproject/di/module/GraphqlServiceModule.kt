@@ -1,7 +1,7 @@
 package com.danhtran.androidbaseproject.di.module
 
 import com.apollographql.apollo.ApolloClient
-import com.danhtran.androidbaseproject.graphql.services.AuthenticationService
+import com.danhtran.androidbaseproject.services.graphql_service.AuthenticationService
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

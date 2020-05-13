@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import com.danhtran.androidbaseproject.R
-import com.danhtran.androidbaseproject.serviceAPI.extras.ErrorHandler
+import com.danhtran.androidbaseproject.services.extras.ErrorHandler
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
 import com.orhanobut.logger.Logger

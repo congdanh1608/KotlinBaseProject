@@ -4,7 +4,7 @@ import android.content.Context
 import com.danhtran.androidbaseproject.BuildConfig
 import com.danhtran.androidbaseproject.MyApplication
 import com.danhtran.androidbaseproject.extras.enums.Header
-import com.danhtran.androidbaseproject.serviceAPI.apiconfig.APIServer
+import com.danhtran.androidbaseproject.services.api_config.APIServer
 import com.google.gson.GsonBuilder
 import com.halcyon.logger.HttpLogInterceptor
 import com.halcyon.logger.ILogger

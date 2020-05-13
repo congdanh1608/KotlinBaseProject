@@ -1,4 +1,4 @@
-package com.danhtran.androidbaseproject.serviceAPI.model
+package com.danhtran.androidbaseproject.services.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

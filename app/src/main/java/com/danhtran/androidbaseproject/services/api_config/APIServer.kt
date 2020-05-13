@@ -1,6 +1,6 @@
-package com.danhtran.androidbaseproject.serviceAPI.apiconfig
+package com.danhtran.androidbaseproject.services.api_config
 
-import com.danhtran.androidbaseproject.serviceAPI.model.ResponseModel
+import com.danhtran.androidbaseproject.services.model.ResponseModel
 import io.reactivex.Observable
 import retrofit2.http.GET
 

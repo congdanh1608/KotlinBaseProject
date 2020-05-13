@@ -1,4 +1,4 @@
-package com.danhtran.androidbaseproject.serviceAPI.extras
+package com.danhtran.androidbaseproject.services.extras
 
 import android.content.Context
 import android.widget.Toast
@@ -6,7 +6,7 @@ import com.apollographql.apollo.exception.ApolloHttpException
 import com.apollographql.apollo.exception.ApolloNetworkException
 import com.danhtran.androidbaseproject.MyApplication
 import com.danhtran.androidbaseproject.R
-import com.danhtran.androidbaseproject.serviceAPI.model.ResponseModel
+import com.danhtran.androidbaseproject.services.model.ResponseModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.danhtran.androidbaseproject.utils.NetworkUtils
 import com.danhtran.androidbaseproject.utils.SnackBarUtils

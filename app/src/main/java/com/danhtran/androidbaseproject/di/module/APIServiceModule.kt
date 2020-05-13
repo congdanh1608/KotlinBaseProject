@@ -1,7 +1,7 @@
 package com.danhtran.androidbaseproject.di.module
 
-import com.danhtran.androidbaseproject.serviceAPI.apiconfig.APIServer
-import com.danhtran.androidbaseproject.serviceAPI.apiservice.MovieService
+import com.danhtran.androidbaseproject.services.api_config.APIServer
+import com.danhtran.androidbaseproject.services.api_service.MovieService
 import dagger.Module
 import dagger.Provides
 

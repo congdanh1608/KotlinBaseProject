@@ -26,7 +26,8 @@
         tools:replace="android:allowBackup">
         <activity
             android:name="com.danhtran.androidbaseproject.ui.activity.splash.SplashActivity"
-            android:theme="@style/AppTheme.Launcher">
+            android:theme="@style/AppTheme.Launcher"
+            tools:replace="android:theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

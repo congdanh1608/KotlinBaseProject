@@ -21,8 +21,11 @@ import androidx.lifecycle.Observer
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.extras.MyContextWrapper
 import com.danhtran.androidbaseproject.extras.enums.HawkKey
-import com.danhtran.androidbaseproject.serviceAPI.extras.ErrorHandler
+import com.danhtran.androidbaseproject.services.extras.ErrorHandler
+import com.danhtran.androidbaseproject.ui.activity.full.FullScreenActivity
 import com.danhtran.androidbaseproject.ui.activity.main.MainActivity
+import com.danhtran.androidbaseproject.ui.activity.secondary.SecondaryActivity
+import com.danhtran.androidbaseproject.ui.activity.splash.SplashActivity
 import com.danhtran.androidbaseproject.ui.activity.tour.TourActivity
 import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
 import com.danhtran.androidbaseproject.utils.UIUtils
@@ -359,9 +362,9 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
 
     //get fragment by tag and data
     private fun getFragment(tag: String): BaseFragment? {
-        /*if (Fragment1.class.getName().equals(tag)) {
-            return new Fragment1();
-        } */
+        when (tag) {
+
+        }
         return null
     }
 
@@ -433,10 +436,22 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
     private fun getIntentActivity(tag: String): Intent? {
         var intent: Intent? = null
         if (tag.isNotEmpty()) {
-            if (tag == MainActivity::class.java.name) {
-                intent = MainActivity.createIntent(this)
-            } else if (tag == TourActivity::class.java.name) {
-                intent = TourActivity.createIntent(this)
+            when (tag) {
+                MainActivity::class.java.name -> {
+                    intent = MainActivity.createIntent(this)
+                }
+                TourActivity::class.java.name -> {
+                    intent = TourActivity.createIntent(this)
+                }
+                FullScreenActivity::class.java.name -> {
+                    intent = FullScreenActivity.createIntent(this)
+                }
+                SecondaryActivity::class.java.name -> {
+                    intent = SecondaryActivity.createIntent(this)
+                }
+                SplashActivity::class.java.name -> {
+                    intent = SplashActivity.createIntent(this)
+                }
             }
         }
         return intent

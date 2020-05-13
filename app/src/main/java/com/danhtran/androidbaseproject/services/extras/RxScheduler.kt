@@ -1,4 +1,4 @@
-package com.danhtran.androidbaseproject.serviceAPI.extras
+package com.danhtran.androidbaseproject.services.extras
 
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
