@@ -4,35 +4,28 @@ import android.content.Context
 import android.os.Handler
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
+import com.danhtran.androidbaseproject.extras.LiveEvent
 
 /**
  * Created by danhtran on 10/06/2017.
  */
 
-abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BindingViewHolder<*>> {
-    private var items: MutableList<T?>
-    protected var listener: BaseRecyclerListener?
-
-    //if we use Application Context in getSystemService(), We will get error if we have autolink in textview.
-    constructor(items: MutableList<T?>, context: Context, listener: BaseRecyclerListener?) : super() {
-        this.items = items
-        this.listener = listener
-
-        this.mLayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    }
-
-    val VISIBLE_THRESHOLD = 1
-    val VIEW_PROG = 0
-    val VIEW_ITEM = 1
+abstract class BaseRecyclerAdapter<T>(private var items: MutableList<T?>, protected var context: Context) : RecyclerView.Adapter<BindingViewHolder<T>>() {
+    protected val VISIBLE_THRESHOLD = 1
+    protected val VIEW_PROG = 0
+    protected val VIEW_ITEM = 1
     var isMoreLoading = false
-    val mLayoutInflater: LayoutInflater
 
-    override fun onBindViewHolder(holder: BindingViewHolder<*>, position: Int) {
+    //if we use Application Context in getSystemService(), We will get error if we have auto link in text view.
+    protected val mLayoutInflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+    var loadMoreAction = LiveEvent<Int>()
+    var itemClickAction = LiveEvent<T>()
+
+    override fun onBindViewHolder(holder: BindingViewHolder<T>, position: Int) {
         if (getItemViewType(position) != VIEW_PROG) {
-            if (position == itemCount - VISIBLE_THRESHOLD) {
-                if (listener != null && !isMoreLoading) {
-                    listener?.onLoadMore(position)
-                }
+            if (position == itemCount - VISIBLE_THRESHOLD && !isMoreLoading) {
+                loadMoreAction.postValue(position)
             }
         }
     }
