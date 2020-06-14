@@ -39,6 +39,15 @@ abstract class BaseFragment : Fragment() {
     val navController: NavController?
         get() = view?.let { Navigation.findNavController(it) }
 
+    fun navControllerTo(parentId: Int, destId: Int, bundle: Bundle?) {
+        view?.let {
+            val navController = Navigation.findNavController(it)
+            if (navController.currentDestination?.id == parentId) {
+                navController.navigate(destId, bundle)
+            }
+        }
+    }
+
     // set reuse binding
     var isReUseBinding = false
 
