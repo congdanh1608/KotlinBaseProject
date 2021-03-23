@@ -1,11 +1,11 @@
 package com.danhtran.androidbaseproject.ui.fragment.home
 
-import com.danhtran.androidbaseproject.ui.fragment.BaseFragmentViewModel
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 
 /**
  * Created by DanhTran on 5/13/2020.
  */
-class HomeFragmentVM: BaseFragmentViewModel() {
+class HomeFragmentVM : BaseViewModel() {
     override fun initInject() {
 
     }

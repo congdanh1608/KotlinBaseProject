@@ -8,7 +8,7 @@ import android.os.Handler
 import android.view.View
 import com.danhtran.androidbaseproject.MyApplication
 import com.danhtran.androidbaseproject.extras.enums.HawkKey
-import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.danhtran.androidbaseproject.ui.activity.main.MainActivity
 import com.danhtran.androidbaseproject.ui.activity.tour.TourActivity
@@ -38,7 +38,7 @@ class SplashActivity : BaseAppCompatActivity() {
 
     }
 
-    override fun initViewModel(): BaseActivityViewModel? {
+    override fun initViewModel(): BaseViewModel? {
         return null
     }
 

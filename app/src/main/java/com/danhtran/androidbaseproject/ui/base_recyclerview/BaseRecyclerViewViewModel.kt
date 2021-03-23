@@ -2,10 +2,10 @@ package com.danhtran.androidbaseproject.ui.base_recyclerview
 
 import android.os.Handler
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.observe
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.danhtran.androidbaseproject.extras.LiveEvent
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import java.util.*
@@ -14,7 +14,7 @@ import java.util.*
  * Created by danhtran on 11/06/2017.
  */
 
-abstract class BaseRecyclerViewViewModel<T>(private val lifecycleOwner: LifecycleOwner, private val swipeRefreshLayout: SwipeRefreshLayout?) : ViewModel(),
+abstract class BaseRecyclerViewViewModel<T>(private val lifecycleOwner: LifecycleOwner, private val swipeRefreshLayout: SwipeRefreshLayout?) : BaseViewModel(),
     SwipeRefreshLayout.OnRefreshListener {
     protected var items: MutableList<T?> = ArrayList()
     lateinit var adapter: BaseRecyclerAdapter<T>
@@ -25,35 +25,8 @@ abstract class BaseRecyclerViewViewModel<T>(private val lifecycleOwner: Lifecycl
     protected var maxPage = 0                           //use if server return total pages load.    //paging loading
     protected var isLoadMore = false                    //use if server return loadMore ? true : false. -> lazy loading
 
-    protected val progressState = LiveEvent<Boolean>()
-    protected val errorHandler = LiveEvent<Throwable>()
-
-    protected var disposable: Disposable
-    protected var disposable2: Disposable
-    protected var disposable3: Disposable
-
-    abstract fun initInject()
-
     init {
-        this.disposable = CompositeDisposable()
-        this.disposable2 = CompositeDisposable()
-        this.disposable3 = CompositeDisposable()
-
-        initInject()
-
         swipeRefreshLayout?.setOnRefreshListener(this)
-    }
-
-    fun showError(throwable: Throwable) {
-        errorHandler.postValue(throwable)
-    }
-
-    fun showProgress() {
-        progressState.postValue(true)
-    }
-
-    fun hideProgress() {
-        progressState.postValue(false)
     }
 
     open fun initData() {

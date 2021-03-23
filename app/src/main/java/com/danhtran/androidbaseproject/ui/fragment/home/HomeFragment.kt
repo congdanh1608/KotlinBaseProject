@@ -3,8 +3,8 @@ package com.danhtran.androidbaseproject.ui.fragment.home
 import androidx.fragment.app.viewModels
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.databinding.FragmentHomeBinding
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
-import com.danhtran.androidbaseproject.ui.fragment.BaseFragmentViewModel
 
 /**
  * Created by DanhTran on 5/13/2020.
@@ -22,7 +22,7 @@ class HomeFragment : BaseFragment() {
         mBinding = binding as FragmentHomeBinding
     }
 
-    override fun initViewModel(): BaseFragmentViewModel? {
+    override fun initViewModel(): BaseViewModel? {
         return homeFragmentVM
     }
 

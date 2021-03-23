@@ -22,6 +22,7 @@ import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.extras.MyContextWrapper
 import com.danhtran.androidbaseproject.extras.enums.HawkKey
 import com.danhtran.androidbaseproject.services.extras.ErrorHandler
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 import com.danhtran.androidbaseproject.ui.activity.full.FullScreenActivity
 import com.danhtran.androidbaseproject.ui.activity.main.MainActivity
 import com.danhtran.androidbaseproject.ui.activity.secondary.SecondaryActivity
@@ -52,7 +53,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
     /**
      * get view model
      */
-    var viewModel: BaseActivityViewModel? = null
+    var viewModel: BaseViewModel? = null
         protected set
 
     /**
@@ -167,7 +168,7 @@ abstract class BaseAppCompatActivity : AppCompatActivity(), FragmentManager.OnBa
     /**
      * Init view model
      */
-    abstract fun initViewModel(): BaseActivityViewModel?
+    abstract fun initViewModel(): BaseViewModel?
 
     /**
      * Binding and initialize data into layout

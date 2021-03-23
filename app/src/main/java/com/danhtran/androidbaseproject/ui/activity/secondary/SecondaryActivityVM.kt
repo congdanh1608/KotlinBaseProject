@@ -1,11 +1,11 @@
 package com.danhtran.androidbaseproject.ui.activity.secondary
 
-import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 
 /**
  * Created by DanhTran on 5/12/2020.
  */
-class SecondaryActivityVM() : BaseActivityViewModel() {
+class SecondaryActivityVM() : BaseViewModel() {
     override fun initInject() {
 
     }

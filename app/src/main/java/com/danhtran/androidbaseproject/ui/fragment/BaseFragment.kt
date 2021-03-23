@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.danhtran.androidbaseproject.services.extras.ErrorHandler
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.danhtran.androidbaseproject.utils.UIUtils
 
@@ -31,7 +32,7 @@ abstract class BaseFragment : Fragment() {
     /**
      * get view model
      */
-    var viewModel: BaseFragmentViewModel? = null
+    var viewModel: BaseViewModel? = null
         protected set
 
 
@@ -85,7 +86,7 @@ abstract class BaseFragment : Fragment() {
     /**
      * Init view model
      */
-    abstract fun initViewModel(): BaseFragmentViewModel?
+    abstract fun initViewModel(): BaseViewModel?
 
     /**
      * Binding and initialize data into layout

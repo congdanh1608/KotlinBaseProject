@@ -3,12 +3,12 @@ package com.danhtran.androidbaseproject.ui.activity.tour
 import android.view.View
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.extras.LiveEvent
-import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 
 /**
  * Created by DanhTran on 5/12/2020.
  */
-class TourActivityVM() : BaseActivityViewModel() {
+class TourActivityVM() : BaseViewModel() {
     val doneAction = LiveEvent<Boolean>()
     val skipAction = LiveEvent<Boolean>()
 

@@ -1,4 +1,4 @@
-package com.danhtran.androidbaseproject.ui.dialog_fragment
+package com.danhtran.androidbaseproject.ui.dialog
 
 import android.app.Dialog
 import android.content.res.Configuration
@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.services.extras.ErrorHandler
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.danhtran.androidbaseproject.ui.fragment.BaseFragment
 import com.orhanobut.logger.Logger
@@ -37,7 +38,7 @@ abstract class BaseDialogFragment : DialogFragment() {
     /**
      * get view model
      */
-    var viewModel: BaseDialogFragmentViewModel? = null
+    var viewModel: BaseViewModel? = null
         protected set
 
     /**
@@ -104,7 +105,7 @@ abstract class BaseDialogFragment : DialogFragment() {
     /**
      * Init view model
      */
-    abstract fun initViewModel(): BaseDialogFragmentViewModel?
+    abstract fun initViewModel(): BaseViewModel?
 
     /**
      * Binding and initialize data into layout

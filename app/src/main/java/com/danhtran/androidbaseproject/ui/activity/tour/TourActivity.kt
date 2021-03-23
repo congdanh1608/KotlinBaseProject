@@ -10,7 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.databinding.ActivityTourBinding
 import com.danhtran.androidbaseproject.extras.enums.HawkKey
-import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.danhtran.androidbaseproject.ui.activity.main.MainActivity
 import com.orhanobut.hawk.Hawk
@@ -72,7 +72,7 @@ class TourActivity : BaseAppCompatActivity() {
         mBinding?.viewPager?.addOnPageChangeListener(viewPagerPageChangeListener)
     }
 
-    override fun initViewModel(): BaseActivityViewModel? {
+    override fun initViewModel(): BaseViewModel? {
         tourActivityVM.doneAction.observe(this) {
             moveNextTour()
         }

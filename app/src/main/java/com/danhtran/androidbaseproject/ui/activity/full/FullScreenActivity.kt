@@ -8,7 +8,7 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.databinding.ActivityFullScreenBinding
-import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 
 /**
@@ -43,7 +43,7 @@ class FullScreenActivity : BaseAppCompatActivity() {
         mBinding = binding as ActivityFullScreenBinding
     }
 
-    override fun initViewModel(): BaseActivityViewModel? {
+    override fun initViewModel(): BaseViewModel? {
         return fullActivityVM
     }
 

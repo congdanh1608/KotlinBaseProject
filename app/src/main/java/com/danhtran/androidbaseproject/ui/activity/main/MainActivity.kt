@@ -14,7 +14,7 @@ import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.databinding.ActivityMainBinding
 import com.danhtran.androidbaseproject.databinding.NavHeaderMainBinding
 import com.danhtran.androidbaseproject.extras.Constant
-import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 import com.google.android.material.navigation.NavigationView
 
@@ -65,7 +65,7 @@ class MainActivity : BaseAppCompatActivity() {
         initNavDrawerMenu()
     }
 
-    override fun initViewModel(): BaseActivityViewModel? {
+    override fun initViewModel(): BaseViewModel? {
         return mainActivityVM
     }
 

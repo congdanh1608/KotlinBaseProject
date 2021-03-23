@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.danhtran.androidbaseproject.R
 import com.danhtran.androidbaseproject.databinding.ActivitySecondaryBinding
-import com.danhtran.androidbaseproject.ui.activity.BaseActivityViewModel
+import com.danhtran.androidbaseproject.ui.BaseViewModel
 import com.danhtran.androidbaseproject.ui.activity.BaseAppCompatActivity
 
 
@@ -37,7 +37,7 @@ class SecondaryActivity : BaseAppCompatActivity() {
         mBinding = binding as ActivitySecondaryBinding
     }
 
-    override fun initViewModel(): BaseActivityViewModel? {
+    override fun initViewModel(): BaseViewModel? {
         secondaryActivityVMFactory = SecondaryActivityVMFactory()
         secondaryActivityVM = ViewModelProvider(this, secondaryActivityVMFactory).get(SecondaryActivityVM::class.java)
 
