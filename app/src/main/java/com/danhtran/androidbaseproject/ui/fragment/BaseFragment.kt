@@ -116,7 +116,7 @@ abstract class BaseFragment : Fragment() {
             binding = null
         }
         val xml = setLayout()
-        if (xml != 0) {
+        if (xml != 0 && binding == null) {
             binding = DataBindingUtil.inflate(inflater, xml, container, false)
 
             initUI()
