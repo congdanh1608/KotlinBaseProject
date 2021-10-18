@@ -37,7 +37,5 @@ captures/
 .idea/workspace.xml
 .idea/
 
-gradle/
-
 # Keystore files
 #*.jks
